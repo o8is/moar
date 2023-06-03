@@ -1,4 +1,3 @@
-// Modules to control application life and `create` native browser window
 const { app, BrowserWindow, shell } = require('electron');
 const path = require('path');
 const http = require('http');
@@ -12,6 +11,8 @@ let mainWindow;
 function isDev() {
   return !app.isPackaged;
 }
+
+// TOOD: Use electron-sudo to update the hosts file.
 
 async function createWindow() {
   // Create the browser window.
