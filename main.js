@@ -3,21 +3,44 @@ const { app, BrowserWindow, shell } = require('electron');
 const path = require('path');
 const http = require('http');
 const httpProxy = require('http-proxy');
+const serve = require('electron-serve');
+const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({})
+
+let mainWindow;
+
+function isDev() {
+  return !app.isPackaged;
+}
 
 async function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 600,
+  mainWindow = new BrowserWindow({
+    width: 800,
     height: 600,
-    minWidth: 600,
+    minWidth: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    show: false,
   })
 
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html');
+  if (isDev()) {
+    mainWindow.loadURL('http://localhost:8888');
+  } else {
+    loadURL(mainWindow);
+  }
+
+  // when the window is closed.
+  mainWindow.on('closed', function () {
+    mainWindow = null
+  });
+
+  // Emitted when the window is ready to be shown
+  // This helps in showing the window gracefully.
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  });
 }
 
 
@@ -47,13 +70,13 @@ app.whenReady().then(async () => {
     // Helia is an ESM-only module but Electron currently only supports CJS
     // at the top level, so we have to use dynamic imports to load it
     // const node = await fetchDomain("octalma.ge")
-    
+
     const server = http.createServer(async function (req, res) {
       let cid;
       try {
         cid = getCID(req.headers.host);
       } catch (e) {
-        res.writeHead(404, {"Content-Type": "text/plain"});
+        res.writeHead(404, { "Content-Type": "text/plain" });
         res.write("404 Not Found\n");
         res.end();
         return;
