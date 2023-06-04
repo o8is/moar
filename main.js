@@ -22,7 +22,7 @@ async function createWindow() {
     height: 600,
     minWidth: 800,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'src', 'preload.js')
     },
     show: false,
   })
@@ -42,6 +42,11 @@ async function createWindow() {
   // This helps in showing the window gracefully.
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
+  });
+
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
   });
 }
 
@@ -144,9 +149,6 @@ app.whenReady().then(async () => {
     });
 
     server.listen(80);
-
-    // shell.openExternal(node);
-
   } catch (err) {
     console.error(err)
   }
