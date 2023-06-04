@@ -3,16 +3,17 @@ const path = require('path');
 const http = require('http');
 const httpProxy = require('http-proxy');
 const serve = require('electron-serve');
+const equal = require('deep-equal');
+const { removeHostsEntries, addHostsEntries, getEntries } = require('electron-hostile');
+
 const loadURL = serve({ directory: 'public' });
-const proxy = httpProxy.createProxyServer({})
+const proxy = httpProxy.createProxyServer({});
 
 let mainWindow;
 
 function isDev() {
   return !app.isPackaged;
 }
-
-// TOOD: Use electron-sudo to update the hosts file.
 
 async function createWindow() {
   // Create the browser window.
@@ -44,21 +45,15 @@ async function createWindow() {
   });
 }
 
-
-// TODO: Move to DAO.
-const subDomains = {
-  jax: 'QmSnFh2Ad1GnScnUkTLDd8s1UTSwiE1giSEY3j3Ryr1KLv',
-  octalmage: 'QmNUJoP71kUVjyCDpndmJkn7FkHMittn5BfJekguKxwj6s',
-};
-
-const getCID = (hostname) => {
-  const sub = hostname.split('.')[0]
-  if (typeof subDomains[sub] !== 'undefined') {
-    return subDomains[sub];
+const getCID = (hostname, dapps) => {
+  const dapp = dapps.find(d => d.domain === hostname);
+  
+  if (dapp) {
+    return dapp.CID;
   }
 
   throw new Error('subdomain not found');
-};
+};  
 
 // req.headers.host
 // This method will be called when Electron has finished
@@ -66,6 +61,67 @@ const getCID = (hostname) => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   createWindow()
+
+  const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps.json')
+  const dapps = await gitopiaResponse.json();
+  
+  try {
+    const { getPins, addPin } = await import('./ipfs.mjs')
+    const pins = await getPins();
+
+    dapps.forEach(async d => {
+      const found = pins.includes(p => p === d.CID);
+      if (!found) {
+        await addPin(d.CID);
+      }
+    }); 
+  } catch (err) {
+    console.error(err)
+  }
+
+
+  const domains = dapps.map(d => d.domain);
+  const hostEnteries = dapps.map((d) => ({ ip: '127.0.0.1', host: d.domain }));
+
+  const enteries = await getEntries();
+
+  // Make sure we remove any domains that don't exist in the registry anymore.
+  const hostEnteriesToRemove = enteries.map(e => {
+    if (e[1].includes('moar.local')) {
+      return { ip: '127.0.0.1', host: e[1] }
+    }
+  }).filter(i => i);
+
+  let needsUpdate = false;
+  for (domain of domains) {
+    let found = false;
+    for (entry of enteries) {
+      if (entry[1] === domain) {
+        found = true;
+      }
+    }
+
+    if (!found) {
+      needsUpdate = true;
+    }
+  }
+
+  if (!equal(hostEnteriesToRemove, hostEnteries)) {
+    needsUpdate = true;
+  }
+
+
+  if (needsUpdate) {
+    await removeHostsEntries(hostEnteriesToRemove, {
+      name: 'Moar',
+      // icon: '/static/img.png',
+    });
+
+    await addHostsEntries(hostEnteries, {
+      name: 'Moar',
+      // icon: '/static/img.png',
+    });
+  }
 
   try {
     // Helia is an ESM-only module but Electron currently only supports CJS
@@ -75,19 +131,18 @@ app.whenReady().then(async () => {
     const server = http.createServer(async function (req, res) {
       let cid;
       try {
-        cid = getCID(req.headers.host);
+        cid = getCID(req.headers.host.split(':')[0], dapps);
       } catch (e) {
         res.writeHead(404, { "Content-Type": "text/plain" });
         res.write("404 Not Found\n");
         res.end();
         return;
       }
-
       const fullTarget = `http://127.0.0.1:8080/ipfs/${cid}/`;
+      console.log(`processing request for ${req.headers.host}: ${fullTarget}`)
       proxy.web(req, res, { target: fullTarget, followRedirects: false, prependPath: true });
     });
 
-    console.log("listening on port 8000")
     server.listen(80);
 
     // shell.openExternal(node);
