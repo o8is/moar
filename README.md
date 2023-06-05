@@ -4,10 +4,21 @@
 
 Moar is a desktop application that enables users to install decentralized application interfaces across various blockchains. 
 
-## Key Features
+## Usage
+
+After cloning this repository run the follow commands:
+
+```sh
+npm install
+npm run electron-dev
+```
+
+## Key Components
 
 ### DAO (Decentralized Autonomous Organization)
 To prevent spam, low quality dapps and phishing, Moar uses a DAO to approve new dapps or updates, ensuring that the power to shape the platform lies with the users and contributors.
+
+Currently this is in [a separate repository](https://gitopia.com/Moar/dapp-registry).
 
 ### Local Domain Resolver
 Moar implements a custom DNS resolver specifically designed to handle Moar domains, thereby providing a reliable method for name resolution within the Moar network. Domains are managed by the DAO and do not expire. 
