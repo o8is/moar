@@ -86,8 +86,9 @@ app.whenReady().then(async () => {
     const { getPins, addPin } = await import('./ipfs.mjs')
     const pins = await getPins();
     dapps.forEach(async d => {
-      const found = pins.includes(p => p === d.CID);
+      const found = pins.includes(d.CID);
       if (!found) {
+        console.log(`pinning ${d.name}: ${d.CID}`);
         await addPin(d.CID);
       }
     }); 
