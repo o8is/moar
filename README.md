@@ -1,7 +1,7 @@
 # Moar: A Decentralized Dapp Store
 
 <p align="center">
-  <img src="./logo.png" />
+  <img src="https://cloudflare-ipfs.com/ipfs/QmZ9PB89qPC7mmBZVdz2rpkcG8skR5gznosPjnsMj9sx8h" />
 </p>
 
 ## Overview
@@ -11,14 +11,7 @@ Moar is a desktop application that enables users to install decentralized applic
 ## Usage
 
 1. [Install IPFS Desktop](https://docs.ipfs.tech/install/ipfs-desktop/)
-1. Install and run Moar: 
-
-After cloning this repository run the follow commands:
-
-```sh
-npm install
-npm run electron-dev
-```
+1. [Download and run Moar](https://gitopia.com/Moar/moar-desktop/releases) from the latest releases.
 
 ## Key Components
 
@@ -45,6 +38,15 @@ In 2015, the Ethereum dapps were accessed via a separate web browser called [Mis
 ## Implementation
 To prioritize user security and choice, Moar takes a different approach. Rather than building on top of Chromium, Moar starts a local web server, giving users the freedom to use their preferred browser. This approach ensures the application remains secure, flexible, and adaptable to users' preferences.
 
-## Demo
+## Development
 
-![](https://publish-01.obsidian.md/access/345d3a51a0287d957b349eed203ad9a4/Images/moar.png)
+After cloning this repository run the following commands:
+
+```sh
+npm install
+npm run electron-dev
+```
+
+## License 
+
+GPLv3
