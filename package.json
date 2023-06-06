@@ -43,6 +43,7 @@
     "electron-serve": "^1.1.0",
     "http-proxy": "^1.18.1",
     "ipfs-http-client": "^60.0.1",
+    "is-port-reachable": "^4.0.0",
     "node-fetch": "^3.3.1"
   }
 }
