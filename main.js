@@ -19,7 +19,7 @@ function isDev() {
 async function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 850,
     skipTaskbar: true,
     height: 600,
     minWidth: 600,
@@ -76,7 +76,7 @@ app.whenReady().then(async () => {
   makeTray(() => {
     mainWindow.show();
     if (process.platform === 'darwin') {
-      app.dock.hide();
+      app.dock.show();
     }
   });
 
@@ -132,12 +132,12 @@ app.whenReady().then(async () => {
   if (needsUpdate) {
     await removeHostsEntries(hostEnteriesToRemove, {
       name: 'Moar',
-      // icon: '/static/img.png',
+      icon: path.join(__dirname, 'logo.icns'),
     });
 
     await addHostsEntries(hostEnteries, {
       name: 'Moar',
-      // icon: '/static/img.png',
+      icon: path.join(__dirname, 'logo.icns'),
     });
   }
 

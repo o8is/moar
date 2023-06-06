@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "moar",
+  "version": "0.1.0",
+  "description": "Decentralized Dapp Store",
   "main": "main.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
@@ -12,9 +12,9 @@
     "preelectron-pack": "yarn run build",
     "electron-pack": "electron-builder"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://gitopia.com/moar/moar-desktop",
   "keywords": [
-    "Electron",
+    "web3",
     "quick",
     "start",
     "tutorial",
@@ -45,5 +45,15 @@
     "ipfs-http-client": "^60.0.1",
     "is-port-reachable": "^4.0.0",
     "node-fetch": "^3.3.1"
+  },
+  "build": {
+    "directories":{
+      "output": "dist"
+   },
+    "appId": "com.octalmage.moar",
+    "productName": "Moar",
+    "mac": {
+      "icon": "build/logo.icns"
+    }
   }
 }

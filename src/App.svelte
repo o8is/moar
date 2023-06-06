@@ -13,7 +13,7 @@
     <section class="bg-white dark:bg-gray-900">
         <div class="px-4 py-4 mx-auto max-w-screen-xl lg:px-6">
             <div class="mx-auto max-w-screen-sm lg:mb-16 mb-8">
-                <img alt="Moar Logo" class="mx-auto" style="width: 100px" src="./logo.png" />
+                <img alt="Moar Logo" class="mx-auto inline text-lg align-text-bottom" style="width: 50px" src="./logo.png" />
             </div>
             <div class="grid gap-8 md:grid-cols-2">
                 {#each dapps as dapp}
