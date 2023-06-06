@@ -6,6 +6,9 @@ Moar is a desktop application that enables users to install decentralized applic
 
 ## Usage
 
+1. [Install IPFS Desktop](https://docs.ipfs.tech/install/ipfs-desktop/)
+1. Install and run Moar: 
+
 After cloning this repository run the follow commands:
 
 ```sh
