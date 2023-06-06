@@ -5,11 +5,16 @@ const httpProxy = require('http-proxy');
 const serve = require('electron-serve');
 const equal = require('deep-equal');
 const { removeHostsEntries, addHostsEntries, getEntries } = require('electron-hostile');
+const { makeTray } = require('./tray');
 
 const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({});
 
 let mainWindow;
+
+if (process.platform === 'darwin') {
+  app.dock.hide();
+}
 
 function isDev() {
   return !app.isPackaged;
@@ -19,6 +24,7 @@ async function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
+    skipTaskbar: true,
     height: 600,
     minWidth: 600,
     webPreferences: {
@@ -34,14 +40,15 @@ async function createWindow() {
   }
 
   // when the window is closed.
-  mainWindow.on('closed', function () {
-    mainWindow = null
+  mainWindow.on('close', function (e) {
+    e.preventDefault();
+    mainWindow.hide();
   });
 
   // Emitted when the window is ready to be shown
   // This helps in showing the window gracefully.
   mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
+    mainWindow.show();
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
@@ -65,7 +72,8 @@ const getCID = (hostname, dapps) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-  createWindow()
+  createWindow();
+  makeTray(() => mainWindow.show());
 
   const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps.json')
   const dapps = await gitopiaResponse.json();
@@ -152,20 +160,4 @@ app.whenReady().then(async () => {
   } catch (err) {
     console.error(err)
   }
-
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
 })
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
-})
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

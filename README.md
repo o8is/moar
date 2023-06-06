@@ -1,5 +1,9 @@
 # Moar: A Decentralized Dapp Store
 
+<p align="center">
+  <img src="./logo.png" />
+</p>
+
 ## Overview
 
 Moar is a desktop application that enables users to install decentralized application interfaces across various blockchains. 
