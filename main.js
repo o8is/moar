@@ -51,6 +51,7 @@ async function createWindow() {
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    mainWindow.hide();
     shell.openExternal(url);
     return { action: 'deny' };
   });
