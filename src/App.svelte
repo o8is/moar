@@ -6,13 +6,12 @@
     onMount(async function () {
         const response = await fetch(endpoint);
         dapps = await response.json();
-        console.log(dapps);
     });
 </script>
 
 <main>
     <section class="bg-white dark:bg-gray-900">
-        <div class="px-4 mx-auto max-w-screen-xl lg:px-6">
+        <div class="px-4 py-4 mx-auto max-w-screen-xl lg:px-6">
             <div class="mx-auto max-w-screen-sm lg:mb-16 mb-8">
                 <img alt="Moar Logo" class="mx-auto" style="width: 100px" src="./logo.png" />
             </div>
@@ -95,18 +94,8 @@
         padding: 1em;
         max-width: 240px;
         margin: 0 auto;
+        max-width: none;
     }
 
-    h1 {
-        color: #ff3e00;
-        text-transform: uppercase;
-        font-size: 4em;
-        font-weight: 100;
-    }
-
-    @media (min-width: 640px) {
-        main {
-            max-width: none;
-        }
-    }
+ 
 </style>

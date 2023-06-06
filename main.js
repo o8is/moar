@@ -12,10 +12,6 @@ const proxy = httpProxy.createProxyServer({});
 
 let mainWindow;
 
-if (process.platform === 'darwin') {
-  app.dock.hide();
-}
-
 function isDev() {
   return !app.isPackaged;
 }
@@ -43,6 +39,9 @@ async function createWindow() {
   mainWindow.on('close', function (e) {
     e.preventDefault();
     mainWindow.hide();
+    if (process.platform === 'darwin') {
+      app.dock.hide();
+    }
   });
 
   // Emitted when the window is ready to be shown
@@ -73,7 +72,12 @@ const getCID = (hostname, dapps) => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   createWindow();
-  makeTray(() => mainWindow.show());
+  makeTray(() => {
+    mainWindow.show();
+    if (process.platform === 'darwin') {
+      app.dock.hide();
+    }
+  });
 
   const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps.json')
   const dapps = await gitopiaResponse.json();
@@ -81,7 +85,6 @@ app.whenReady().then(async () => {
   try {
     const { getPins, addPin } = await import('./ipfs.mjs')
     const pins = await getPins();
-
     dapps.forEach(async d => {
       const found = pins.includes(p => p === d.CID);
       if (!found) {

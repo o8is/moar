@@ -5,9 +5,8 @@ const makeTray = (openWindow) => {
    const trayMenuTemplate = [
       {
          label: 'Open',
-         click: () => {
-            openWindow();
-         },
+         click: () => openWindow(),
+
       },
       {
          type: 'separator',
@@ -15,14 +14,16 @@ const makeTray = (openWindow) => {
       {
          label: 'Quit',
          click: () => {
-            app.quit();
+            app.exit();
          },
       }
-   ]
+   ];
 
    const trayIcon = new Tray(path.join(__dirname, 'trayTemplate.png'));
-   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate)
-   trayIcon.setContextMenu(trayMenu)
+   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
+   trayIcon.setContextMenu(trayMenu);
+
+   trayIcon.on('click', openWindow);
 };
 
 module.exports = { makeTray };
