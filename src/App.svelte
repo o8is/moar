@@ -10,7 +10,7 @@
 </script>
 
 <main>
-    <section class="bg-white dark:bg-gray-900">
+    <section class="bg-gray-900">
         <div class="px-4 py-4 mx-auto max-w-screen-xl lg:px-6">
             <div class="mx-auto max-w-screen-sm lg:mb-16 mb-8">
                 <img alt="Moar Logo" class="mx-auto inline text-lg align-text-bottom" style="width: 50px" src="./logo.png" />
