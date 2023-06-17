@@ -1,6 +1,6 @@
 {
   "name": "moar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Decentralized Dapp Store",
   "main": "main.js",
   "scripts": {
@@ -47,9 +47,9 @@
     "node-fetch": "^3.3.1"
   },
   "build": {
-    "directories":{
+    "directories": {
       "output": "dist"
-   },
+    },
     "appId": "com.octalmage.moar",
     "productName": "Moar",
     "mac": {
