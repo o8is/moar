@@ -54,6 +54,10 @@
     "productName": "Moar",
     "mac": {
       "icon": "build/logo.icns"
+    },
+    "win": {
+      "icon": "build/logo.png",
+      "target": "zip"
     }
   }
 }
