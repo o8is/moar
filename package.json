@@ -8,8 +8,8 @@
     "dev": "rollup -c -w --bundleConfigAsCjs",
     "start": "sirv public --no-clear --port 8888",
     "electron": "wait-on http://localhost:8888 && electron .",
-    "electron-dev": "concurrently \"yarn run dev\" \"yarn run electron\"",
-    "preelectron-pack": "yarn run build",
+    "electron-dev": "concurrently \"npm run dev\" \"npm run electron\"",
+    "preelectron-pack": "npm run build",
     "electron-pack": "electron-builder"
   },
   "repository": "https://gitopia.com/moar/moar-desktop",
