@@ -13,6 +13,8 @@ const { removeHostsEntries, addHostsEntries, getEntries } = require('electron-ho
 const Store = require('electron-store');
 const { makeTray } = require('./src/tray');
 
+const gotTheLock = app.requestSingleInstanceLock();
+
 const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({});
 
@@ -41,6 +43,20 @@ function isDev() {
   return !app.isPackaged;
 }
 
+const hideWindow = (win) => {
+  win.hide();
+  if (process.platform === 'darwin') {
+    app.dock.hide();
+  }
+}
+
+const showWindow = (win) => {
+  win.show();
+  if (process.platform === 'darwin') {
+    app.dock.show();
+  }
+}
+
 async function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -54,13 +70,6 @@ async function createWindow() {
     show: false,
   })
 
-  const hideWindow = () => {
-    mainWindow.hide();
-    if (process.platform === 'darwin') {
-      app.dock.hide();
-    }
-  }
-
   if (isDev()) {
     mainWindow.loadURL('http://localhost:8888');
   } else {
@@ -70,17 +79,17 @@ async function createWindow() {
   // when the window is closed.
   mainWindow.on('close', function (e) {
     e.preventDefault();
-    hideWindow();
+    hideWindow(mainWindow);
   });
 
   // Emitted when the window is ready to be shown
   // This helps in showing the window gracefully.
   mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
+    showWindow(mainWindow);
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    hideWindow();
+    hideWindow(mainWindow);
     shell.openExternal(url);
     return { action: 'deny' };
   });
@@ -115,12 +124,21 @@ const getCID = (dapp, version) => {
 
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
+  if (!gotTheLock) {
+    return app.quit();
+  } else {
+    app.on('second-instance', () => {
+      console.log('we got second instance');
+      // Someone tried to run a second instance, we should focus our window.
+      if (mainWindow) {
+        showWindow(mainWindow);
+      }
+    })
+  }
+
   createWindow();
   makeTray(() => {
-    mainWindow.show();
-    if (process.platform === 'darwin') {
-      app.dock.show();
-    }
+    showWindow(mainWindow);
   });
 
   try {
@@ -177,7 +195,6 @@ app.whenReady().then(async () => {
   if (!equal(hostEnteriesToRemove, hostEnteries)) {
     needsUpdate = true;
   }
-
 
   if (needsUpdate) {
     /**
