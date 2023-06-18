@@ -13,6 +13,8 @@ Moar is a desktop application that enables users to install decentralized applic
 1. [Install IPFS Desktop](https://docs.ipfs.tech/install/ipfs-desktop/)
 1. [Download and run Moar](https://gitopia.com/Moar/moar-desktop/releases) from the latest releases.
 
+After launching the app for the first time it will take a few minutes for interfaces to download. You will likely be asked for administrative access twice after launching, this is to setup custom moar domains.
+
 ## Key Components
 
 ### DAO (Decentralized Autonomous Organization)
@@ -27,7 +29,7 @@ Moar implements a custom DNS resolver specifically designed to handle Moar domai
 
 IPFS is used for serving the assets of dapps, ensuring data remains distributed and easily accessible. Dapp updates are included in a governance proposal to the DAO with the CID of the new dapp interface. 
 
-Dapp submissions and updates are charged a fee that’s distributed to DAO participants (stakers). This fee helps reduce spam, and generates revenue for maintaining the store. 
+Dapp submissions and updates are charged a fee that is distributed to DAO participants (stakers). This fee helps reduce spam, and generates revenue for maintaining the store.
 
 When a dapp is installed it will be pinned to the users local IPFS node, ensuring it’s always online and can be installed by other users. 
 
