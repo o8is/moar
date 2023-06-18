@@ -57,11 +57,11 @@ async function createWindow() {
   });
 }
 
-const getCID = (hostname, dapps) => {
+const getDapp = (hostname, dapps) => {
   const dapp = dapps.find(d => d.domain === hostname);
   
   if (dapp) {
-    return dapp.CID;
+    return dapp;
   }
 
   throw new Error('subdomain not found');
@@ -142,20 +142,31 @@ app.whenReady().then(async () => {
   }
 
   try {
-    // Helia is an ESM-only module but Electron currently only supports CJS
-    // at the top level, so we have to use dynamic imports to load it
-    // const node = await fetchDomain("octalma.ge")
-
     const server = http.createServer(async function (req, res) {
-      let cid;
+      let cid, features;
       try {
-        cid = getCID(req.headers.host.split(':')[0], dapps);
+        ({CID: cid, features } = getDapp(req.headers.host.split(':')[0], dapps));
       } catch (e) {
         res.writeHead(404, { "Content-Type": "text/plain" });
         res.write("404 Not Found\n");
         res.end();
         return;
       }
+
+      // Support single apps (SPAs) if spa is included in the features section.
+      const parsedPath = path.parse(req.url);
+      if (
+        // Check to see if dapp has SPA enabled.
+        (typeof features !== 'undefined' && features.includes('spa'))
+        // Check request for a sub-page.
+        && req.url !== "/" 
+        // Make sure requested path is not HTML or empty.
+        && ['html', ''].includes(parsedPath.ext)
+        ) {
+        // Redirect to the base path.
+        req.url = "/"
+      }
+
       const fullTarget = `http://127.0.0.1:8080/ipfs/${cid}/`;
       console.log(`processing request for ${req.headers.host}: ${fullTarget}`)
       proxy.web(req, res, { target: fullTarget, followRedirects: false, prependPath: true });
