@@ -29,6 +29,13 @@ async function createWindow() {
     show: false,
   })
 
+  const hideWindow = () => {
+    mainWindow.hide();
+    if (process.platform === 'darwin') {
+      app.dock.hide();
+    }
+  }
+
   if (isDev()) {
     mainWindow.loadURL('http://localhost:8888');
   } else {
@@ -38,10 +45,7 @@ async function createWindow() {
   // when the window is closed.
   mainWindow.on('close', function (e) {
     e.preventDefault();
-    mainWindow.hide();
-    if (process.platform === 'darwin') {
-      app.dock.hide();
-    }
+    hideWindow();
   });
 
   // Emitted when the window is ready to be shown
@@ -51,7 +55,7 @@ async function createWindow() {
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    mainWindow.hide();
+    hideWindow();
     shell.openExternal(url);
     return { action: 'deny' };
   });
