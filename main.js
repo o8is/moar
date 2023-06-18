@@ -1,4 +1,9 @@
-const { app, BrowserWindow, shell } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+} = require('electron');
 const path = require('path');
 const http = require('http');
 const httpProxy = require('http-proxy');
@@ -6,9 +11,23 @@ const serve = require('electron-serve');
 const equal = require('deep-equal');
 const { removeHostsEntries, addHostsEntries, getEntries } = require('electron-hostile');
 const { makeTray } = require('./tray');
+const Store = require('electron-store');
 
 const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({});
+
+// Setup default store values.
+const store = new Store({
+  installed: [],
+});
+
+// Listen to renderer events.
+ipcMain.on('store-get', async (event, val) => {
+  event.returnValue = store.get(val);
+});
+ipcMain.on('store-set', async (_, key, val) => {
+  store.set(key, val);
+});
 
 let mainWindow;
 
@@ -63,17 +82,18 @@ async function createWindow() {
 
 const getDapp = (hostname, dapps) => {
   const dapp = dapps.find(d => d.domain === hostname);
-  
+
   if (dapp) {
     return dapp;
   }
 
   throw new Error('subdomain not found');
-};  
+};
 
-// req.headers.host
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
+const getCID = (dapp, version) => {
+
+};
+
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   createWindow();
@@ -84,9 +104,17 @@ app.whenReady().then(async () => {
     }
   });
 
-  const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps.json')
+  const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json')
   const dapps = await gitopiaResponse.json();
-  
+
+  const cids = dapps.map(dapp => {
+    const versions = Object.keys(dapp.versions);
+    const latestRelease = Math.max(...versions);
+    return dapp.versions[latestRelease].cid;
+  });
+
+  app.exit();
+
   try {
     const { getPins, addPin } = await import('./ipfs.mjs')
     const pins = await getPins();
@@ -96,7 +124,7 @@ app.whenReady().then(async () => {
         console.log(`pinning ${d.name}: ${d.CID}`);
         await addPin(d.CID);
       }
-    }); 
+    });
   } catch (err) {
     console.error(err)
   }
@@ -134,6 +162,10 @@ app.whenReady().then(async () => {
 
 
   if (needsUpdate) {
+    /**
+     * TODO: This should be smarter, diff current list and
+     * only make deletions or additions as needed.
+     */
     await removeHostsEntries(hostEnteriesToRemove, {
       name: 'Moar',
       icon: path.join(__dirname, 'logo.icns'),
@@ -149,7 +181,7 @@ app.whenReady().then(async () => {
     const server = http.createServer(async function (req, res) {
       let cid, features;
       try {
-        ({CID: cid, features } = getDapp(req.headers.host.split(':')[0], dapps));
+        ({ CID: cid, features } = getDapp(req.headers.host.split(':')[0], dapps));
       } catch (e) {
         res.writeHead(404, { "Content-Type": "text/plain" });
         res.write("404 Not Found\n");
@@ -163,10 +195,10 @@ app.whenReady().then(async () => {
         // Check to see if dapp has SPA enabled.
         (typeof features !== 'undefined' && features.includes('spa'))
         // Check request for a sub-page.
-        && req.url !== "/" 
-        // Make sure requested path is not HTML or empty.
+        && req.url !== "/"
+        // Make sure requested path is HTML or empty.
         && ['html', ''].includes(parsedPath.ext)
-        ) {
+      ) {
         // Redirect to the base path.
         req.url = "/"
       }
@@ -176,6 +208,7 @@ app.whenReady().then(async () => {
       proxy.web(req, res, { target: fullTarget, followRedirects: false, prependPath: true });
     });
 
+    // TODO: Make this configurable, 80 will not always be an option.
     server.listen(80);
   } catch (err) {
     console.error(err)

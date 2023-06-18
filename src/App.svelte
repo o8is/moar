@@ -1,7 +1,9 @@
 <script>
     import { onMount } from "svelte";
-    const endpoint = "https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps.json";
+    const endpoint = "https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json";
     let dapps = [];
+
+    console.log(window.electron.store);
 
     onMount(async function () {
         const response = await fetch(endpoint);
@@ -96,6 +98,4 @@
         margin: 0 auto;
         max-width: none;
     }
-
- 
 </style>
