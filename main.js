@@ -91,7 +91,18 @@ const getDapp = (hostname, dapps) => {
 };
 
 const getCID = (dapp, version) => {
+  let versionToLookup = version;
+  if (typeof versionToLookup === 'undefined') {
+    const versions = Object.keys(dapp.versions);
+    const latestRelease = Math.max(...versions);
+    versionToLookup = latestRelease;
+  }
 
+  if (typeof dapp.versions[versionToLookup] === 'undefined') {
+    throw new Error('version of interface not found.');
+  }
+
+  return dapp.versions[versionToLookup].cid;
 };
 
 // Some APIs can only be used after this event occurs.
@@ -106,29 +117,23 @@ app.whenReady().then(async () => {
 
   const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json')
   const dapps = await gitopiaResponse.json();
-
-  const cids = dapps.map(dapp => {
-    const versions = Object.keys(dapp.versions);
-    const latestRelease = Math.max(...versions);
-    return dapp.versions[latestRelease].cid;
-  });
-
-  app.exit();
+  // TODO: Look at installed versions and get the CID for those.
+  const cids = dapps.map(d => getCID(d));
 
   try {
-    const { getPins, addPin } = await import('./ipfs.mjs')
+    const { getPins, addPin } = await import('./ipfs.mjs');
+    // TODO: Unpin any previous interface versions.
     const pins = await getPins();
-    dapps.forEach(async d => {
-      const found = pins.includes(d.CID);
+    cids.forEach(async cid => {
+      const found = pins.includes(cid);
       if (!found) {
-        console.log(`pinning ${d.name}: ${d.CID}`);
-        await addPin(d.CID);
+        console.log(`pinning ${d.name}: ${cid}`);
+        await addPin(cid);
       }
     });
   } catch (err) {
     console.error(err)
   }
-
 
   const domains = dapps.map(d => d.domain);
   const hostEnteries = dapps.map((d) => ({ ip: '127.0.0.1', host: d.domain }));
@@ -178,10 +183,13 @@ app.whenReady().then(async () => {
   }
 
   try {
+    // Web server logic, handles mapping of domains to IPFS buckets. 
     const server = http.createServer(async function (req, res) {
       let cid, features;
       try {
-        ({ CID: cid, features } = getDapp(req.headers.host.split(':')[0], dapps));
+        const dapp = getDapp(req.headers.host.split(':')[0], dapps);
+        features = dapp.features;
+        cid = getCID(dapp);
       } catch (e) {
         res.writeHead(404, { "Content-Type": "text/plain" });
         res.write("404 Not Found\n");
@@ -197,6 +205,8 @@ app.whenReady().then(async () => {
         // Check request for a sub-page.
         && req.url !== "/"
         // Make sure requested path is HTML or empty.
+        // We don't want to redirect requests for JavaScript or CSS to the root.
+        // TODO: We should probably try the path first like nginx try_files.
         && ['html', ''].includes(parsedPath.ext)
       ) {
         // Redirect to the base path.
