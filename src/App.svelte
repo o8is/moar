@@ -1,24 +1,30 @@
 <script>
     import { onMount } from "svelte";
-    const endpoint = "https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json";
     let dapps = [];
 
-    console.log(window.electron.store);
-
     onMount(async function () {
-        const response = await fetch(endpoint);
-        dapps = await response.json();
+        // Load dapps from the main thread.
+        dapps = electron.store.get('dapps');
     });
+
+    function onVersionSelect(e) {
+        console.log(e.target);
+    }
 </script>
 
 <main>
     <section class="bg-gray-900">
         <div class="px-4 py-4 mx-auto max-w-screen-xl lg:px-6">
             <div class="mx-auto max-w-screen-sm lg:mb-16 mb-8">
-                <img alt="Moar Logo" class="mx-auto inline text-lg align-text-bottom" style="width: 50px" src="./logo.png" />
+                <img
+                    alt="Moar Logo"
+                    class="mx-auto inline text-lg align-text-bottom"
+                    style="width: 50px"
+                    src="./logo.png"
+                />
             </div>
             <div class="grid gap-8 md:grid-cols-2">
-                {#each dapps as dapp}
+                {#each dapps as dapp, index}
                     <article
                         class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
                     >
@@ -45,7 +51,19 @@
                                 </svg>
                                 {dapp.tags[0]}
                             </span>
-                            <!-- <span class="text-sm">14 days ago</span> -->
+                            <span class="text-sm">
+                                <!-- TODO: On change we need to store the users preference. -->
+                                <select
+                                    class="bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+                                    on:change={onVersionSelect}
+                                >
+                                    {#each Object.keys(dapp.versions) as version}
+                                        <option value={version}>
+                                            {version}
+                                        </option>
+                                    {/each}
+                                </select>
+                            </span>
                         </div>
                         <h2
                             class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"

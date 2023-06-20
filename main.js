@@ -16,9 +16,12 @@ const Store = require('electron-store');
 const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({});
 
+let dapps = [];
+
 // Setup default store values.
 const store = new Store({
-  installed: [],
+  installed: {},
+  dapps: [],
 });
 
 // Listen to renderer events.
@@ -115,8 +118,14 @@ app.whenReady().then(async () => {
     }
   });
 
+  try {
   const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json')
-  const dapps = await gitopiaResponse.json();
+    dapps = await gitopiaResponse.json();
+    store.set('dapps', dapps);
+  } catch (e) {
+    daps = store.get('dapps');
+  }
+
   // TODO: Look at installed versions and get the CID for those.
   const cids = dapps.map(d => getCID(d));
 
