@@ -24,6 +24,9 @@ const store = new Store({
   dapps: [],
 });
 
+// Default to latest version.
+store.set('installed', {});
+
 // Listen to renderer events.
 ipcMain.on('store-get', async (event, val) => {
   event.returnValue = store.get(val);
@@ -93,6 +96,8 @@ const getDapp = (hostname, dapps) => {
   throw new Error('subdomain not found');
 };
 
+const getCIDs = (dapp) => Object.keys(dapp.versions).map(d => dapp.versions[d].cid);
+
 const getCID = (dapp, version) => {
   let versionToLookup = version;
   if (typeof versionToLookup === 'undefined') {
@@ -126,9 +131,8 @@ app.whenReady().then(async () => {
     daps = store.get('dapps');
   }
 
-  // TODO: Look at installed versions and get the CID for those.
-  const cids = dapps.map(d => getCID(d));
-
+  // TODO: Pinning every version of the UI forever is probably not the best idea.
+  const cids = dapps.map(d => getCIDs(d)).flat();
   try {
     const { getPins, addPin } = await import('./ipfs.mjs');
     // TODO: Unpin any previous interface versions.
@@ -198,7 +202,14 @@ app.whenReady().then(async () => {
       try {
         const dapp = getDapp(req.headers.host.split(':')[0], dapps);
         features = dapp.features;
-        cid = getCID(dapp);
+        const installed = store.get('installed');
+        if (typeof installed[dapp.domain] === 'undefined') {
+          // No preferred version found so load the latest.
+          cid = getCID(dapp);
+        } else {
+          cid = installed[dapp.domain];
+        }
+        
       } catch (e) {
         res.writeHead(404, { "Content-Type": "text/plain" });
         res.write("404 Not Found\n");

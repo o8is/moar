@@ -4,11 +4,23 @@
 
     onMount(async function () {
         // Load dapps from the main thread.
-        dapps = electron.store.get('dapps');
+        dapps = electron.store.get("dapps");
+        // Sort dapp interfaces by the highest version.
+        dapps.forEach((d, i) => {
+            dapps[i].versions = Object.keys(d.versions)
+                .reverse()
+                .map((key) => {
+                    return { ...d.versions[key], id: key };
+                });
+        });
     });
 
     function onVersionSelect(e) {
-        console.log(e.target);
+        const [domain, version] = e.target.value.split("|");
+        const installed = electron.store.get("installed") || {};
+        // Map the domain to the chosen UI version.
+        installed[domain] = version;
+        electron.store.set("installed", installed);
     }
 </script>
 
@@ -52,14 +64,16 @@
                                 {dapp.tags[0]}
                             </span>
                             <span class="text-sm">
-                                <!-- TODO: On change we need to store the users preference. -->
+                                <!-- TODO: Make the default selected option the last selected. -->
                                 <select
                                     class="bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
                                     on:change={onVersionSelect}
                                 >
-                                    {#each Object.keys(dapp.versions) as version}
-                                        <option value={version}>
-                                            {version}
+                                    {#each dapp.versions as version}
+                                        <option
+                                            value={`${dapp.domain}|${version.cid}`}
+                                        >
+                                            v{version.id}
                                         </option>
                                     {/each}
                                 </select>
