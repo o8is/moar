@@ -1,4 +1,4 @@
-# Moar: A Decentralized Dapp Store
+# MOAR: Multi-platform Open-source Application Registry
 
 <p align="center">
   <img src="https://cloudflare-ipfs.com/ipfs/QmZ9PB89qPC7mmBZVdz2rpkcG8skR5gznosPjnsMj9sx8h" />

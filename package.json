@@ -1,7 +1,7 @@
 {
   "name": "moar",
   "version": "0.3.0",
-  "description": "Decentralized Dapp Store",
+  "description": "Multi-platform Open-source Application Registry",
   "main": "main.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
