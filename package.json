@@ -14,14 +14,10 @@
   },
   "repository": "https://gitopia.com/moar/moar-desktop",
   "keywords": [
-    "web3",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "web3"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Moar DAO",
+  "license": "GPLV3",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
