@@ -10,8 +10,8 @@ const httpProxy = require('http-proxy');
 const serve = require('electron-serve');
 const equal = require('deep-equal');
 const { removeHostsEntries, addHostsEntries, getEntries } = require('electron-hostile');
-const { makeTray } = require('./tray');
 const Store = require('electron-store');
+const { makeTray } = require('./src/tray');
 
 const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({});
