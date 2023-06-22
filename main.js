@@ -140,7 +140,7 @@ app.whenReady().then(async () => {
     cids.forEach(async cid => {
       const found = pins.includes(cid);
       if (!found) {
-        console.log(`pinning ${d.name}: ${cid}`);
+        console.log(`pinning ${cid}`);
         await addPin(cid);
       }
     });
