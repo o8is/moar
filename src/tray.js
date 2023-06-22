@@ -1,29 +1,39 @@
-const { app, Tray, Menu } = require('electron');
-const path = require('path')
+const { app, Tray, Menu } = require("electron");
+const path = require("path");
 
 const makeTray = (openWindow) => {
-   const trayMenuTemplate = [
-      {
-         label: 'Open',
-         click: () => openWindow(),
-
+  const trayMenuTemplate = [
+    {
+      label: "Open",
+      click: () => openWindow(),
+    },
+    {
+      type: "separator",
+    },
+    { role: "about", label: "About" },
+    {
+      type: "separator",
+    },
+    {
+      label: "Update Dapps",
+      click: () => {
+        app.relaunch();
+        app.exit();
       },
-      {
-         type: 'separator',
+    },
+    {
+      label: "Quit",
+      click: () => {
+        app.exit();
       },
-      {
-         label: 'Quit',
-         click: () => {
-            app.exit();
-         },
-      }
-   ];
+    },
+  ];
 
-   const trayIcon = new Tray(path.join(__dirname, 'trayTemplate.png'));
-   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
-   trayIcon.setContextMenu(trayMenu);
+  const trayIcon = new Tray(path.join(__dirname, "..", "trayTemplate.png"));
+  const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
+  trayIcon.setContextMenu(trayMenu);
 
-   trayIcon.on('click', openWindow);
+  trayIcon.on("click", openWindow);
 };
 
 module.exports = { makeTray };

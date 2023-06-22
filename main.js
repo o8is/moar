@@ -134,7 +134,7 @@ app.whenReady().then(async () => {
   // TODO: Pinning every version of the UI forever is probably not the best idea.
   const cids = dapps.map(d => getCIDs(d)).flat();
   try {
-    const { getPins, addPin } = await import('./ipfs.mjs');
+    const { getPins, addPin } = await import('./src/ipfs.mjs');
     // TODO: Unpin any previous interface versions.
     const pins = await getPins();
     cids.forEach(async cid => {
