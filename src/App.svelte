@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import Time from "svelte-time";
     let dapps = [];
 
     onMount(async function () {
@@ -86,19 +87,19 @@
                                 >{dapp.name}</a
                             >
                         </h2>
-                        <p
-                            class="mb-5 font-light text-gray-500 dark:text-gray-400"
-                        >
+                        <p class="mb-5 font-light text-gray-400">
                             {dapp.description}
                         </p>
                         <div class="flex justify-between items-center">
                             <div class="flex items-center space-x-4">
-                                &nbsp;
+                                <span class="text-gray-400 text-sm">
+                                  Updated <Time timestamp={dapp.versions[0].date} live relative />
+                                </span>
                             </div>
                             <a
                                 target="_blank"
                                 href={`http://${dapp.domain}`}
-                                class="inline-flex items-center font-medium text-primary-600 dark:text-white hover:underline"
+                                class="inline-flex items-center font-medium text-primary-600 text-white hover:underline"
                             >
                                 Open Dapp
                                 <svg
