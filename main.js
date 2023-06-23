@@ -125,16 +125,23 @@ const getCID = (dapp, version) => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   if (!gotTheLock) {
+    console.log('app already open, quitting')
     return app.quit();
-  } else {
-    app.on('second-instance', () => {
-      console.log('we got second instance');
-      // Someone tried to run a second instance, we should focus our window.
-      if (mainWindow) {
-        showWindow(mainWindow);
-      }
-    })
   }
+
+  app.on('second-instance', () => {
+    // Tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      showWindow(mainWindow);
+    }
+  });
+
+  // Similar to the second-instance event. 
+  app.on('activate', () => {
+    if (mainWindow) {
+      showWindow(mainWindow);
+    }
+  });
 
   createWindow();
   makeTray(() => {
@@ -142,7 +149,7 @@ app.whenReady().then(async () => {
   });
 
   try {
-  const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json')
+    const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json')
     dapps = await gitopiaResponse.json();
     store.set('dapps', dapps);
   } catch (e) {
@@ -226,7 +233,7 @@ app.whenReady().then(async () => {
         } else {
           cid = installed[dapp.domain];
         }
-        
+
       } catch (e) {
         res.writeHead(404, { "Content-Type": "text/plain" });
         res.write("404 Not Found\n");
