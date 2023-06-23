@@ -29,7 +29,13 @@ const makeTray = (openWindow) => {
     },
   ];
 
-  const trayIcon = new Tray(path.join(__dirname, "..", "trayTemplate.png"));
+  let trayLogo = "tray.png";
+  // macOS tray icon supports dark/light modes.
+  if (process.platform === 'darwin') {
+    trayLogo = "trayTemplate.png";
+  }
+
+  const trayIcon = new Tray(path.join(__dirname, trayLogo));
   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
   trayIcon.setContextMenu(trayMenu);
 
