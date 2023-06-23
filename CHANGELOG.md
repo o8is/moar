@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://gitopia.com/moar/moar-desktop/compare/v0.4.0...v0.4.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* Correct text colors for light mode. ([3726a4c](https://gitopia.com/moar/moar-desktop/commit/3726a4c2896184063ccf34c05caf6e752a510f38))
+* Disable application (file) menu. ([4d52e35](https://gitopia.com/moar/moar-desktop/commit/4d52e35904610db254a3ff82dc1edcf75a2c462c))
+* Support ports other than 80 for Linux. ([99b0d33](https://gitopia.com/moar/moar-desktop/commit/99b0d33c435a63234b98108e612dcdb99b2a95bc)), closes [#15](https://gitopia.com/moar/moar-desktop/issues/15)
+* Use white icon on Linux where dark mode isn't supported. ([cf02bb0](https://gitopia.com/moar/moar-desktop/commit/cf02bb0c064c8ea7f1aa73c71ff3520a552f9307))
+
 ## [0.4.0](https://gitopia.com/moar/moar-desktop/compare/v0.3.0...v0.4.0) (2023-06-23)
 
 

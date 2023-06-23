@@ -1,6 +1,6 @@
 {
   "name": "moar",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "homepage": "https://moar.codes",
   "description": "Multi-platform Open-source Application Registry",
   "main": "main.js",
@@ -65,7 +65,10 @@
     },
     "linux": {
       "icon": "build/logo.png",
-      "target": ["zip", "deb"],
+      "target": [
+        "zip",
+        "deb"
+      ],
       "asar": false
     },
     "nsis": {
