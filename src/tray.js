@@ -23,8 +23,7 @@ const makeTray = (openWindow) => {
       click: () => {
         openAtLogin = !openAtLogin;
         app.setLoginItemSettings({ 
-          openAtLogin, 
-          openAsHidden: true,
+          openAtLogin,
         });
       },
     },
