@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://gitopia.com/moar/moar-desktop/compare/v0.4.2...v0.4.3) (2023-06-23)
+
+
+### Features
+
+* Check for updates on startup. ([ada6e74](https://gitopia.com/moar/moar-desktop/commit/ada6e74df5f606450ce293e261b0410e151660c2)), closes [#6](https://gitopia.com/moar/moar-desktop/issues/6)
+
+
+### Bug Fixes
+
+* App should not open as hidden. ([b5b8168](https://gitopia.com/moar/moar-desktop/commit/b5b8168376fa7064cca81451ab5122eb1dbe0cd7))
+
 ### [0.4.2](https://gitopia.com/moar/moar-desktop/compare/v0.4.1...v0.4.2) (2023-06-23)
 
 
