@@ -38,6 +38,7 @@
     "wait-on": "^7.0.1"
   },
   "dependencies": {
+    "compare-versions": "^6.0.0-rc.1",
     "deep-equal": "^2.2.1",
     "electron-hostile": "^1.1.1",
     "electron-serve": "^1.1.0",

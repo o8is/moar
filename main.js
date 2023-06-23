@@ -2,6 +2,7 @@ const {
   app,
   BrowserWindow,
   shell,
+  Notification,
   ipcMain,
   Menu,
 } = require('electron');
@@ -13,8 +14,24 @@ const equal = require('deep-equal');
 const { removeHostsEntries, addHostsEntries, getEntries } = require('electron-hostile');
 const Store = require('electron-store');
 const { makeTray } = require('./src/tray');
+const package = require('./package.json');
+const { hasUpdate } = require('./src/updates');
 
 const gotTheLock = app.requestSingleInstanceLock();
+
+let updateNotifictaion;
+
+// Check for update on startup.
+hasUpdate(package.version)
+  .then(newVersion => {
+    console.log('new version ', newVersion);
+    updateNotifictaion = new Notification({ title: 'New Update', body: `Moar v${newVersion} is available` });
+    updateNotifictaion.on('click', () => {
+      shell.openExternal('https://gitopia.com/Moar/moar-desktop/releases');
+    });
+    updateNotifictaion.show();
+  })
+  .catch(() => null);
 
 const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({});
