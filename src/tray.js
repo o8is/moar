@@ -1,6 +1,8 @@
 const { app, Tray, Menu } = require("electron");
 const path = require("path");
 
+let { openAtLogin } = app.getLoginItemSettings();
+
 const makeTray = (openWindow) => {
   const trayMenuTemplate = [
     {
@@ -14,12 +16,27 @@ const makeTray = (openWindow) => {
     {
       type: "separator",
     },
+    { 
+      label: 'Open at Login', 
+      type: 'checkbox', 
+      checked: openAtLogin,
+      click: () => {
+        openAtLogin = !openAtLogin;
+        app.setLoginItemSettings({ 
+          openAtLogin, 
+          openAsHidden: true,
+        });
+      },
+    },
     {
       label: "Update Dapps",
       click: () => {
         app.relaunch();
         app.exit();
       },
+    },
+    {
+      type: "separator",
     },
     {
       label: "Quit",
