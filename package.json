@@ -11,7 +11,7 @@
     "electron-dev": "concurrently \"npm run dev\" \"npm run electron\"",
     "predist": "npm run build",
     "dist": "electron-builder -mwl",
-    "postdist": "electron-builder -w --ia32"
+    "release": "standard-version"
   },
   "repository": "https://gitopia.com/moar/moar-desktop",
   "keywords": [
@@ -31,6 +31,7 @@
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
     "sirv-cli": "^2.0.0",
+    "standard-version": "^9.5.0",
     "svelte": "^3.0.0",
     "svelte-time": "^0.7.2",
     "wait-on": "^7.0.1"
