@@ -3,6 +3,7 @@ const {
   BrowserWindow,
   shell,
   ipcMain,
+  Menu,
 } = require('electron');
 const path = require('path');
 const http = require('http');
@@ -43,6 +44,8 @@ function isDev() {
   return !app.isPackaged;
 }
 
+// Turn off file menu.
+Menu.setApplicationMenu(null)
 const hideWindow = (win) => {
   win.hide();
   if (process.platform === 'darwin') {
