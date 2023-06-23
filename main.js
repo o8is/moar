@@ -46,6 +46,9 @@ function isDev() {
 
 // Turn off file menu.
 Menu.setApplicationMenu(null)
+
+let httpPort = 80;
+
 const hideWindow = (win) => {
   win.hide();
   if (process.platform === 'darwin') {
@@ -93,7 +96,12 @@ async function createWindow() {
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     hideWindow(mainWindow);
-    shell.openExternal(url);
+    if (httpPort === 80) {
+      shell.openExternal(url);
+    } else {
+      // Make sure to remove trailing slash before port.
+      shell.openExternal(`${url.replace(/\/$/, "")}:${httpPort}`);
+    }
     return { action: 'deny' };
   });
 }
@@ -162,7 +170,7 @@ app.whenReady().then(async () => {
   // TODO: Pinning every version of the UI forever is probably not the best idea.
   const cids = dapps.map(d => getCIDs(d)).flat();
   try {
-    const { getPins, addPin } = await import('./src/ipfs.mjs');
+    const { getPins, addPin } = await import(path.join(__dirname, 'src', 'ipfs.mjs'));
     // TODO: Unpin any previous interface versions.
     const pins = await getPins();
     cids.forEach(async cid => {
@@ -265,8 +273,12 @@ app.whenReady().then(async () => {
       proxy.web(req, res, { target: fullTarget, followRedirects: false, prependPath: true });
     });
 
-    // TODO: Make this configurable, 80 will not always be an option.
-    server.listen(80);
+    if (process.platform === 'linux') {
+      httpPort = 8008;
+      server.listen(8008);
+    } else {
+      server.listen(80);
+    }
   } catch (err) {
     console.error(err)
   }
