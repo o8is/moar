@@ -4,13 +4,14 @@
   "description": "Multi-platform Open-source Application Registry",
   "main": "main.js",
   "scripts": {
-    "build": "rollup -c --bundleConfigAsCjs",
+    "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear --port 8888",
     "electron": "wait-on http://localhost:8888 && electron .",
     "electron-dev": "concurrently \"npm run dev\" \"npm run electron\"",
-    "preelectron-pack": "npm run build",
-    "electron-pack": "electron-builder"
+    "predist": "npm run build",
+    "dist": "electron-builder -mwl",
+    "postdist": "electron-builder -w --ia32"
   },
   "repository": "https://gitopia.com/moar/moar-desktop",
   "keywords": [
@@ -54,6 +55,10 @@
       "icon": "build/logo.icns"
     },
     "win": {
+      "icon": "build/logo.png",
+      "target": "zip"
+    },
+    "linux": {
       "icon": "build/logo.png",
       "target": "zip"
     }
