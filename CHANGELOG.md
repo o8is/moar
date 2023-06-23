@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file. See [standa
 ## [0.4.0](https://gitopia.com/moar/moar-desktop/compare/v0.3.0...v0.4.0) (2023-06-23)
 
 
-### ⚠ BREAKING CHANGES
+### BREAKING CHANGES
 
 * Support new dapp registry format.
 
