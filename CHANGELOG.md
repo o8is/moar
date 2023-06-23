@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file. See [standa
 ### [0.4.5](https://gitopia.com/moar/moar-desktop/compare/v0.4.4...v0.4.5) (2023-06-23)
 
 
+### Features
+
+* Display message box when IPFS isn't running. ([5846249](https://gitopia.com/moar/moar-desktop/commit/58462491497442356e17f3cdb4c1ddcc106919cf)), closes [#12](https://gitopia.com/moar/moar-desktop/issues/12)
+
+
+### Bug Fixes
+
+* Correct logic that checks for updates. ([4b170f8](https://gitopia.com/moar/moar-desktop/commit/4b170f86156da6823aa897d6565dabe1d96bcc65)), closes [#17](https://gitopia.com/moar/moar-desktop/issues/17)
+
+### [0.4.5](https://gitopia.com/moar/moar-desktop/compare/v0.4.4...v0.4.5) (2023-06-23)
+
+
 ### Bug Fixes
 
 * Correct logic that checks for updates. ([4b170f8](https://gitopia.com/moar/moar-desktop/commit/4b170f86156da6823aa897d6565dabe1d96bcc65)), closes [#17](https://gitopia.com/moar/moar-desktop/issues/17)
