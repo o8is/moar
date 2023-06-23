@@ -1,6 +1,7 @@
 {
   "name": "moar",
   "version": "0.4.0",
+  "homepage": "https://moar.codes",
   "description": "Multi-platform Open-source Application Registry",
   "main": "main.js",
   "scripts": {
@@ -17,13 +18,13 @@
   "keywords": [
     "web3"
   ],
-  "author": "Moar DAO",
+  "author": "Moar DAO <moar@emailsucks.io>",
   "license": "GPLV3",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "concurrently": "^8.1.0",
-    "electron": "^25.0.1",
+    "electron": "^25.2.0",
     "electron-builder": "^23.6.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
@@ -57,11 +58,15 @@
     },
     "win": {
       "icon": "build/logo.png",
-      "target": ["nsis", "zip"]
+      "target": [
+        "nsis",
+        "zip"
+      ]
     },
     "linux": {
       "icon": "build/logo.png",
-      "target": "zip"
+      "target": ["zip", "deb"],
+      "asar": false
     },
     "nsis": {
       "oneClick": false,
