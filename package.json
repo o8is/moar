@@ -57,11 +57,16 @@
     },
     "win": {
       "icon": "build/logo.png",
-      "target": "zip"
+      "target": ["nsis", "zip"]
     },
     "linux": {
       "icon": "build/logo.png",
       "target": "zip"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
     }
   }
 }
