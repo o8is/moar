@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://gitopia.com/moar/moar-desktop/compare/v0.4.1...v0.4.2) (2023-06-23)
+
+
+### Features
+
+* Add option to open Moar at login. ([34248de](https://gitopia.com/moar/moar-desktop/commit/34248ded70003cb8627ffcdf048a2b690f05d54b)), closes [#14](https://gitopia.com/moar/moar-desktop/issues/14)
+
 ### [0.4.1](https://gitopia.com/moar/moar-desktop/compare/v0.4.0...v0.4.1) (2023-06-23)
 
 
