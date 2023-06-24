@@ -54,9 +54,7 @@
     },
     "appId": "com.octalmage.moar",
     "productName": "Moar",
-    "asarUnpack": [
-      "./src/ipfs.mjs"
-    ],
+    "asar": false,
     "mac": {
       "icon": "build/logo.icns"
     },
@@ -72,8 +70,7 @@
       "target": [
         "zip",
         "deb"
-      ],
-      "asar": false
+      ]
     },
     "nsis": {
       "oneClick": false,
