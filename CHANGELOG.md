@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://gitopia.com/moar/moar-desktop/compare/v0.5.0...v0.5.1) (2023-06-24)
+
+
+### Bug Fixes
+
+* **design:** Slight adjustments to the padding around dapp cards. ([84b6790](https://gitopia.com/moar/moar-desktop/commit/84b6790dccc6fef30d8e802ff470bde46ad053eb))
+
 ## [0.5.0](https://gitopia.com/moar/moar-desktop/compare/v0.4.6...v0.5.0) (2023-06-24)
 
 
