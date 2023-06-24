@@ -141,7 +141,6 @@ async function createWindow() {
     if (isDev) {
       mainWindow.webContents.openDevTools();
     }
-    
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
