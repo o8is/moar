@@ -57,14 +57,13 @@ const makeTray = (toggleWindow) => {
 
   // Linux doesn't support "popUpContextMenu".
   if (process.platform === 'linux') {
-    tray.setContextMenu(trayMenu)
+    trayIcon.setContextMenu(trayMenu)
+  } else {
+    trayIcon.on("click", toggleWindow);
+    trayIcon.on("right-click", () => {
+      trayIcon.popUpContextMenu(trayMenu);
+    });
   }
-
-  trayIcon.on("click", toggleWindow);
-  trayIcon.on("right-click", () => {
-    trayIcon.popUpContextMenu(trayMenu);
-  });
-
 };
 
 module.exports = { makeTray };
