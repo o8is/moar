@@ -26,6 +26,7 @@
     "concurrently": "^8.1.0",
     "electron": "^25.2.0",
     "electron-builder": "^23.6.0",
+    "electron-builder-notarize": "^1.5.1",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
@@ -55,8 +56,11 @@
     "appId": "com.octalmage.moar",
     "productName": "Moar",
     "asar": false,
+    "afterSign": "electron-builder-notarize",
     "mac": {
-      "icon": "build/logo.icns"
+      "icon": "build/logo.icns",
+      "hardenedRuntime": true,
+      "entitlements": "./node_modules/electron-builder-notarize/entitlements.mac.inherit.plist"
     },
     "dmg": {
       "writeUpdateInfo": false
