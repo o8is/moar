@@ -58,6 +58,9 @@
     "mac": {
       "icon": "build/logo.icns"
     },
+    "dmg": {
+      "writeUpdateInfo": false
+    },
     "win": {
       "icon": "build/logo.png",
       "target": [
@@ -73,6 +76,7 @@
       ]
     },
     "nsis": {
+      "differentialPackage": false,
       "oneClick": false,
       "perMachine": true,
       "allowToChangeInstallationDirectory": true
