@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://gitopia.com/moar/moar-desktop/compare/v0.4.6...v0.5.0) (2023-06-24)
+
+
+### Features
+
+* New dapp layout including dapp preview. ([6827dce](https://gitopia.com/moar/moar-desktop/commit/6827dceedac3d6e75479c28882a148cc59a63783))
+
 ### [0.4.6](https://gitopia.com/moar/moar-desktop/compare/v0.4.4...v0.4.6) (2023-06-24)
 
 
