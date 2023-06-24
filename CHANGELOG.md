@@ -12,7 +12,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* Correct logic that checks for updates. ([4b170f8](https://gitopia.com/moar/moar-desktop/commit/4b170f86156da6823aa897d6565dabe1d96bcc65)), closes [#17](https://gitopia.com/moar/moar-desktop/issues/17)
 * Load cached dapps list if Gitopia is down. ([66ea250](https://gitopia.com/moar/moar-desktop/commit/66ea250e74d517c70a83cb179ef5a52466a8f3c6))
 * Log errors related to IPFS communication. ([d7eb649](https://gitopia.com/moar/moar-desktop/commit/d7eb649a8df723e055626e86ff3241d3ec595e65))
 
