@@ -36,12 +36,12 @@
                     src="./logo.png"
                 />
             </div>
-            <div class="container my-12 mx-auto px-4 md:px-12">
+            <div class="container my-12 mx-auto px-4 ">
                 <div class="flex flex-wrap -mx-1 lg:-mx-4">
                     {#each dapps as dapp, index}
                         <!-- Column -->
                         <div
-                            class="my-1 px-1 w-full md:w-1/2 lg:my-4 px-4 lg:w-1/3"
+                            class="w-full md:w-1/2 my-4 px-4 lg:w-1/3"
                         >
                             <!-- Article -->
                             <article
