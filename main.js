@@ -70,25 +70,29 @@ Menu.setApplicationMenu(null)
 let httpPort = 80;
 
 const hideWindow = (win) => {
-  win.hide();
-  if (process.platform === 'darwin') {
-    app.dock.hide();
+  if (win) {
+    win.hide();
+    if (process.platform === 'darwin') {
+      app.dock.hide();
+    }
   }
 }
 
 const showWindow = (win) => {
-  win.center();
-  win.show();
-  if (process.platform === 'darwin') {
-    app.dock.show();
+  if (win) {
+    win.center();
+    win.show();
+    if (process.platform === 'darwin') {
+      app.dock.show();
+    }
   }
 }
 
-const toggleWindow = () => {
-  if (mainWindow.isVisible()) {
-    hideWindow(mainWindow);
+const toggleWindow = (win) => {
+  if (win.isVisible()) {
+    hideWindow(win);
   } else {
-    showWindow(mainWindow);
+    showWindow(win);
   }
 }
 
@@ -184,32 +188,20 @@ app.whenReady().then(async () => {
 
   app.on('second-instance', () => {
     // Tried to run a second instance, we should focus our window.
-    if (mainWindow) {
-      showWindow(mainWindow);
-    }
+    showWindow(mainWindow);
   });
 
   globalShortcut.register('Super+Alt+Control+M', () => {
-    if (mainWindow) {
-      if (mainWindow.isVisible()) {
-        hideWindow(mainWindow);
-      } else {
-        showWindow(mainWindow);
-      }
-    }
+    toggleWindow(mainWindow);
   })
 
   // Similar to the second-instance event. 
   app.on('activate', () => {
-    if (mainWindow) {
-      showWindow(mainWindow);
-    }
+    showWindow(mainWindow);
   });
 
   createWindow();
-  makeTray(() => {
-    toggleWindow(mainWindow);
-  });
+  makeTray(() => toggleWindow(mainWindow));
 
   try {
     const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json')
