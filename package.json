@@ -1,6 +1,6 @@
 {
   "name": "moar",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "homepage": "https://moar.codes",
   "description": "Multi-platform Open-source Application Registry",
   "main": "main.js",
@@ -54,7 +54,9 @@
     },
     "appId": "com.octalmage.moar",
     "productName": "Moar",
-    "asarUnpack": ["./src/ipfs.mjs"],
+    "asarUnpack": [
+      "./src/ipfs.mjs"
+    ],
     "mac": {
       "icon": "build/logo.icns"
     },

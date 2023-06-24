@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.6](https://gitopia.com/moar/moar-desktop/compare/v0.4.4...v0.4.6) (2023-06-24)
+
+
+### Features
+
+* Display message box when IPFS isn't running. ([5846249](https://gitopia.com/moar/moar-desktop/commit/58462491497442356e17f3cdb4c1ddcc106919cf)), closes [#12](https://gitopia.com/moar/moar-desktop/issues/12)
+
+
+### Bug Fixes
+
+* Correct logic that checks for updates. ([4b170f8](https://gitopia.com/moar/moar-desktop/commit/4b170f86156da6823aa897d6565dabe1d96bcc65)), closes [#17](https://gitopia.com/moar/moar-desktop/issues/17)
+* Load cached dapps list if Gitopia is down. ([66ea250](https://gitopia.com/moar/moar-desktop/commit/66ea250e74d517c70a83cb179ef5a52466a8f3c6))
+* Log errors related to IPFS communication. ([d7eb649](https://gitopia.com/moar/moar-desktop/commit/d7eb649a8df723e055626e86ff3241d3ec595e65))
 
 ### [0.4.5](https://gitopia.com/moar/moar-desktop/compare/v0.4.4...v0.4.5) (2023-06-23)
 
