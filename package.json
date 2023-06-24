@@ -25,7 +25,7 @@
     "@rollup/plugin-node-resolve": "^11.0.0",
     "concurrently": "^8.1.0",
     "electron": "^25.2.0",
-    "electron-builder": "^23.6.0",
+    "electron-builder": "^24.4.0",
     "electron-builder-notarize": "^1.5.1",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
@@ -73,10 +73,12 @@
       ]
     },
     "linux": {
+      "category": "Network",
       "icon": "build/logo.png",
       "target": [
-        "zip",
-        "deb"
+        "AppImage",
+        "deb",
+        "rpm"
       ]
     },
     "nsis": {
