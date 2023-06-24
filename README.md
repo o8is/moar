@@ -1,8 +1,6 @@
 # MOAR: Multi-platform Open-source Application Registry
 
-<p align="center">
-  <img src="https://cloudflare-ipfs.com/ipfs/QmZ9PB89qPC7mmBZVdz2rpkcG8skR5gznosPjnsMj9sx8h" />
-</p>
+![Moar Screenshot](https://jax.mypinata.cloud/ipfs/Qmbx9nPwiXdp3bgcgxETi4CSNiwo6bo1ooq4QCu1wJs3eT)
 
 ## Overview
 
