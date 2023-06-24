@@ -84,6 +84,14 @@ const showWindow = (win) => {
   }
 }
 
+const toggleWindow = () => {
+  if (mainWindow.isVisible()) {
+    hideWindow(mainWindow);
+  } else {
+    showWindow(mainWindow);
+  }
+}
+
 async function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -200,7 +208,7 @@ app.whenReady().then(async () => {
 
   createWindow();
   makeTray(() => {
-    showWindow(mainWindow);
+    toggleWindow(mainWindow);
   });
 
   try {

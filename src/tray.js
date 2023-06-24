@@ -3,7 +3,7 @@ const path = require("path");
 
 let { openAtLogin } = app.getLoginItemSettings();
 
-const makeTray = (openWindow, version) => {
+const makeTray = (openWindow) => {
   const trayMenuTemplate = [
     {
       label: "Toggle Window",
