@@ -12,22 +12,29 @@ const makeTray = (toggleWindow) => {
     },
     {
       type: "separator",
-    },
-    { role: "about", label: "About" },
-    {
-      type: "separator",
-    },
-    {
-      label: 'Open at Login',
-      type: 'checkbox',
-      checked: openAtLogin,
-      click: () => {
-        openAtLogin = !openAtLogin;
-        app.setLoginItemSettings({
-          openAtLogin,
-        });
+    }
+  ];
+
+  // Open at login and about don't work on Linux.
+  if (process.platform !== "linux") {
+    trayMenuTemplate.push(
+      { role: "about", label: "About" },
+      { type: "separator" },
+      {
+        label: 'Open at Login',
+        type: 'checkbox',
+        checked: openAtLogin,
+        click: () => {
+          openAtLogin = !openAtLogin;
+          app.setLoginItemSettings({
+            openAtLogin,
+          });
+        },
       },
-    },
+    );
+  }
+
+  trayMenuTemplate.push(
     {
       label: "Update Dapps",
       click: () => {
@@ -43,8 +50,7 @@ const makeTray = (toggleWindow) => {
       click: () => {
         app.exit();
       },
-    },
-  ];
+    });
 
   let trayLogo = "tray.png";
   // macOS tray icon supports dark/light modes.

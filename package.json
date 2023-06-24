@@ -12,6 +12,7 @@
     "electron-dev": "concurrently \"npm run dev\" \"npm run electron\"",
     "predist": "npm run build",
     "dist": "electron-builder -mwl",
+    "unpacked": "electron-builder -mwl --dir",
     "release": "standard-version"
   },
   "repository": "https://gitopia.com/moar/moar-desktop",
