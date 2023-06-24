@@ -17,13 +17,13 @@ const makeTray = (toggleWindow) => {
     {
       type: "separator",
     },
-    { 
-      label: 'Open at Login', 
-      type: 'checkbox', 
+    {
+      label: 'Open at Login',
+      type: 'checkbox',
       checked: openAtLogin,
       click: () => {
         openAtLogin = !openAtLogin;
-        app.setLoginItemSettings({ 
+        app.setLoginItemSettings({
           openAtLogin,
         });
       },
@@ -54,9 +54,17 @@ const makeTray = (toggleWindow) => {
 
   const trayIcon = new Tray(path.join(__dirname, trayLogo));
   const trayMenu = Menu.buildFromTemplate(trayMenuTemplate);
-  trayIcon.setContextMenu(trayMenu);
+
+  // Linux doesn't support "popUpContextMenu".
+  if (process.platform === 'linux') {
+    tray.setContextMenu(trayMenu)
+  }
 
   trayIcon.on("click", toggleWindow);
+  trayIcon.on("right-click", () => {
+    trayIcon.popUpContextMenu(trayMenu);
+  });
+
 };
 
 module.exports = { makeTray };
