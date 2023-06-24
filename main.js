@@ -186,10 +186,15 @@ app.whenReady().then(async () => {
 
   // TODO: Pinning every version of the UI forever is probably not the best idea.
   const cids = dapps.map(d => getCIDs(d)).flat();
+
+  // Cache preview hashes locally.
+  dapps.forEach((d) => {
+    cids.push(d.preview);
+  });
   try {
     const { getPins, addPin } = await import(
       // https://github.com/electron/electron/issues/6262#issuecomment-229043051
-      path.join(__dirname, 'src', 'ipfs.mjs').replace('app.asar', 'app.asar.unpacked'),
+      path.join(__dirname, 'src', 'ipfs.mjs'),
     );
     // TODO: Unpin any previous interface versions.
     const pins = await getPins();

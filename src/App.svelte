@@ -36,88 +36,73 @@
                     src="./logo.png"
                 />
             </div>
-            <div class="grid gap-8 md:grid-cols-2">
-                {#each dapps as dapp, index}
-                    <article
-                        class="p-6 rounded-lg border shadow-md bg-gray-800 border-gray-700"
-                    >
+            <div class="container my-12 mx-auto px-4 md:px-12">
+                <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                    {#each dapps as dapp, index}
+                        <!-- Column -->
                         <div
-                            class="flex justify-between bg-gray-800 items-center mb-5 text-gray-500"
+                            class="my-1 px-1 w-full md:w-1/2 lg:my-4 px-4 lg:w-1/3"
                         >
-                            <span
-                                class="text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded bg-primary-200 text-primary-800"
+                            <!-- Article -->
+                            <article
+                                class="bg-gray-800 overflow-hidden rounded-lg shadow-lg"
                             >
-                                <svg
-                                    class="mr-1 w-3 h-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
-                                        clip-rule="evenodd"
+                                <a target="_blank" href={`http://${dapp.domain}`}>
+                                    <img
+                                        alt="Screenshot"
+                                        class="block h-auto w-full"
+                                        src="http://127.0.0.1:8080/ipfs/{dapp.preview}/"
                                     />
-                                    <path
-                                        d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"
-                                    />
-                                </svg>
-                                {dapp.tags[0]}
-                            </span>
-                            <span class="text-sm">
-                                <!-- TODO: Make the default selected option the last selected. -->
-                                <select
-                                    class="bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
-                                    on:change={onVersionSelect}
+                                </a>
+
+                                <header
+                                    class="flex items-center justify-between leading-tight p-2 md:p-4"
                                 >
-                                    {#each dapp.versions as version}
-                                        <option
-                                            value={`${dapp.domain}|${version.cid}`}
+                                    <h1 class="text-lg">
+                                        <a
+                                            target="_blank"
+                                            class="text-white no-underline hover:underline text-black"
+                                            href={`http://${dapp.domain}`}
                                         >
-                                            v{version.id}
-                                        </option>
-                                    {/each}
-                                </select>
-                            </span>
-                        </div>
-                        <h2
-                            class="mb-2 text-2xl font-bold tracking-tight text-white"
-                        >
-                            <a target="_blank" href={`http://${dapp.domain}`}
-                                >{dapp.name}</a
-                            >
-                        </h2>
-                        <p class="mb-5 font-light text-gray-400">
-                            {dapp.description}
-                        </p>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center space-x-4">
-                                <span class="text-gray-400 text-sm">
-                                  Updated <Time timestamp={dapp.versions[0].date} live relative />
-                                </span>
-                            </div>
-                            <a
-                                target="_blank"
-                                href={`http://${dapp.domain}`}
-                                class="inline-flex items-center font-medium text-primary-600 text-white hover:underline"
-                            >
-                                Open Dapp
-                                <svg
-                                    class="ml-2 w-4 h-4"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
+                                            {dapp.name}
+                                        </a>
+                                    </h1>
+                                    <p class="text-gray-400 text-sm">
+                                        Updated <Time
+                                            timestamp={dapp.versions[0].date}
+                                            live
+                                            relative
+                                        />
+                                    </p>
+                                </header>
+
+                                <footer
+                                    class="flex items-center justify-between leading-none p-2 md:p-4"
                                 >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                                        clip-rule="evenodd"
-                                    />
-                                </svg>
-                            </a>
+                                    <span class="text-gray-400">
+                                        {dapp.tags[0]}
+                                    </span>
+                                    <span class="text-sm">
+                                        <select
+                                            class="bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+                                            on:change={onVersionSelect}
+                                        >
+                                            {#each dapp.versions as version}
+                                                <option
+                                                    value={`${dapp.domain}|${version.cid}`}
+                                                >
+                                                    v{version.id}
+                                                </option>
+                                            {/each}
+                                        </select>
+                                    </span>
+                                </footer>
+                            </article>
+                            <!-- END Article -->
                         </div>
-                    </article>
-                {/each}
+                        <!-- END Column -->
+                    {/each}
+                </div>
             </div>
         </div>
     </section>
