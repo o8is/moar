@@ -6,6 +6,7 @@ const {
   ipcMain,
   Menu,
   dialog,
+  globalShortcut,
 } = require('electron');
 const path = require('path');
 const http = require('http');
@@ -163,6 +164,16 @@ app.whenReady().then(async () => {
       showWindow(mainWindow);
     }
   });
+
+  globalShortcut.register('Super+Alt+Control+M', () => {
+    if (mainWindow) {
+      if (mainWindow.isVisible()) {
+        hideWindow(mainWindow);
+      } else {
+        showWindow(mainWindow);
+      }
+    }
+  })
 
   // Similar to the second-instance event. 
   app.on('activate', () => {

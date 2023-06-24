@@ -3,11 +3,12 @@ const path = require("path");
 
 let { openAtLogin } = app.getLoginItemSettings();
 
-const makeTray = (openWindow) => {
+const makeTray = (openWindow, version) => {
   const trayMenuTemplate = [
     {
-      label: "Open",
+      label: "Toggle Window",
       click: () => openWindow(),
+      accelerator: 'Super+Alt+Control+M',
     },
     {
       type: "separator",
