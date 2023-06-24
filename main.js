@@ -187,7 +187,10 @@ app.whenReady().then(async () => {
   // TODO: Pinning every version of the UI forever is probably not the best idea.
   const cids = dapps.map(d => getCIDs(d)).flat();
   try {
-    const { getPins, addPin } = await import(path.join(__dirname, 'src', 'ipfs.mjs'));
+    const { getPins, addPin } = await import(
+      // https://github.com/electron/electron/issues/6262#issuecomment-229043051
+      path.join(__dirname, 'src', 'ipfs.mjs').replace('app.asar', 'app.asar.unpacked'),
+    );
     // TODO: Unpin any previous interface versions.
     const pins = await getPins();
     cids.forEach(async cid => {
@@ -198,6 +201,7 @@ app.whenReady().then(async () => {
       }
     });
   } catch (err) {
+    console.error(err);
     dialog.showMessageBox(
       mainWindow,
       {
@@ -210,7 +214,6 @@ app.whenReady().then(async () => {
         if (result.response === 0) {
           shell.openExternal('https://docs.ipfs.tech/install/ipfs-desktop/#install-instructions');
         }
-
         app.exit();
       });
   }
