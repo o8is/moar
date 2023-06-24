@@ -27,21 +27,21 @@
 
 <main>
     <section class="bg-gray-900">
-        <div class="px-4 py-4 mx-auto max-w-screen-xl lg:px-6">
-            <div class="mx-auto max-w-screen-sm lg:mb-16 mb-8">
+        <div class="px-4 mx-auto max-w-screen-xl lg:px-6">
+            <div class="mx-auto draggable max-w-screen-sm">
                 <img
                     alt="Moar Logo"
-                    class="mx-auto inline text-lg align-text-bottom"
+                    class="mx-auto my-8 inline text-lg align-text-bottom"
                     style="width: 50px"
                     src="./logo.png"
                 />
             </div>
-            <div class="container my-12 mx-auto px-4 ">
+            <div class="container mx-auto px-4 pb-8">
                 <div class="flex flex-wrap -mx-1 lg:-mx-4">
                     {#each dapps as dapp, index}
                         <!-- Column -->
                         <div
-                            class="w-full md:w-1/2 my-4 px-4 lg:w-1/3"
+                            class="w-full md:w-1/2 my-4 px-4 lg:w-1/3 not-draggable"
                         >
                             <!-- Article -->
                             <article

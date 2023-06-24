@@ -6,6 +6,7 @@ const {
   ipcMain,
   Menu,
   dialog,
+  screen,
   globalShortcut,
 } = require('electron');
 const path = require('path');
@@ -75,6 +76,7 @@ const hideWindow = (win) => {
 }
 
 const showWindow = (win) => {
+  win.center();
   win.show();
   if (process.platform === 'darwin') {
     app.dock.show();
@@ -84,7 +86,13 @@ const showWindow = (win) => {
 async function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    fullscreenable: false,
     width: 850,
+    title: 'Moar',
+    backgroundColor: '#121826',
+    titleBarStyle: 'hidden',
+    titleBarOverlay: true,
+    vibrancy: 'dark',
     skipTaskbar: true,
     height: 600,
     minWidth: 600,
@@ -109,6 +117,13 @@ async function createWindow() {
   // Emitted when the window is ready to be shown
   // This helps in showing the window gracefully.
   mainWindow.once('ready-to-show', () => {
+    // Create a window that fills the screen's available work area.
+    const primaryDisplay = screen.getPrimaryDisplay();
+    const { width, height } = primaryDisplay.workAreaSize;
+
+    // Set the Window size dynamically.
+    mainWindow.setSize(width - 100, height - 100);
+    // mainWindow.maximize();
     showWindow(mainWindow);
   });
 

@@ -1,6 +1,28 @@
 /* styles.css */
 
-body, html, section {
+::-webkit-scrollbar {
+    background-color: #121826;
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #212936;
+    border-radius: 15px;
+}
+
+body,
+html,
+section {
+    user-select: none;
     height: 100vh;
     background-color: #121826;
+}
+
+.draggable {
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
+.not-draggable {
+    -webkit-app-region: no-drag;
 }
