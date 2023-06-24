@@ -242,20 +242,25 @@ app.whenReady().then(async () => {
     });
   } catch (err) {
     console.error(err);
-    dialog.showMessageBox(
-      mainWindow,
-      {
-        message: "IPFS is not running, start IPFS then relaunch Moar.",
-        buttons: ["Open IPFS Download", "Quit"],
-        defaultId: 0,
-        cancelId: 1,
-      })
-      .then(result => {
-        if (result.response === 0) {
-          shell.openExternal('https://docs.ipfs.tech/install/ipfs-desktop/#install-instructions');
-        }
-        app.exit();
-      });
+
+    // IPFS and Moar can launch at different times.
+    const { wasOpenedAtLogin } = app.getLoginItemSettings();
+    if (!wasOpenedAtLogin) {
+      dialog.showMessageBox(
+        mainWindow,
+        {
+          message: "IPFS is not running, start IPFS then relaunch Moar.",
+          buttons: ["Open IPFS Download", "Quit"],
+          defaultId: 0,
+          cancelId: 1,
+        })
+        .then(result => {
+          if (result.response === 0) {
+            shell.openExternal('https://docs.ipfs.tech/install/ipfs-desktop/#install-instructions');
+          }
+          app.exit();
+        });
+    }
   }
 
   const domains = dapps.map(d => d.domain);
