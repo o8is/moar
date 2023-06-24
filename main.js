@@ -145,6 +145,8 @@ async function createWindow() {
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    // Reset state and remount our components.
+    mainWindow.reload();
     hideWindow(mainWindow);
     if (httpPort === 80) {
       shell.openExternal(url);
