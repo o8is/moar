@@ -60,9 +60,11 @@
     "afterSign": "electron-builder-notarize",
     "mac": {
       "icon": "build/logo.icns",
-      "writeUpdateInfo": false,
       "hardenedRuntime": true,
       "entitlements": "./node_modules/electron-builder-notarize/entitlements.mac.inherit.plist"
+    },
+    "dmg": {
+      "writeUpdateInfo": false
     },
     "win": {
       "icon": "build/logo.png",
