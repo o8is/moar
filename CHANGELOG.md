@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://gitopia.com/moar/moar-desktop/compare/v0.5.1...v0.6.0) (2023-06-24)
+
+
+### Features
+
+* Add global Cmd+Alt+Ctrl+M shortcut to toggle the window. ([af9c697](https://gitopia.com/moar/moar-desktop/commit/af9c697a709ab99675ed827b49c50935b988eccf))
+* Enable keyboard navigation. ([b809947](https://gitopia.com/moar/moar-desktop/commit/b8099476171646fb5650e0fc81b1f3a72dbf84fb))
+* **Linux:** Remove unsupported tray menu items. ([6fbb70c](https://gitopia.com/moar/moar-desktop/commit/6fbb70cbf5e899ec312a601c798915146f7665c9))
+* Toggle window when tray is clicked. ([6e33d5b](https://gitopia.com/moar/moar-desktop/commit/6e33d5b8a98b8f28122fc127730e9ecf6887acba))
+
+
+### Bug Fixes
+
+* Don't open the context-menu on click. ([6f1d159](https://gitopia.com/moar/moar-desktop/commit/6f1d15916326808e8ee3976efe0f9b3db540d91d))
+* **Linux:** Set default context menu on tray click. ([fa20ca6](https://gitopia.com/moar/moar-desktop/commit/fa20ca6cb30fd494016e54f5c91a018902511e54))
+* **macOS:** Don't check IPFS status when opened at login. ([fdb5222](https://gitopia.com/moar/moar-desktop/commit/fdb5222faf0b0244aaf5e3a60cc3fbad8080e330))
+* **macOS:** Notarize the build to prevent gatekeeper errors. ([1ddfa70](https://gitopia.com/moar/moar-desktop/commit/1ddfa709395175f2dee566e754f893f1186bdca7))
+* **Windows:** Fix IPFS pinning by converting path to fileURL. ([d8b8854](https://gitopia.com/moar/moar-desktop/commit/d8b885404a79dad3a86621b893eff9d4d3d1d87a))
+
 ### [0.5.1](https://gitopia.com/moar/moar-desktop/compare/v0.5.0...v0.5.1) (2023-06-24)
 
 

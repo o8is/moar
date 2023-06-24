@@ -1,6 +1,6 @@
 {
   "name": "moar",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "homepage": "https://moar.codes",
   "description": "Multi-platform Open-source Application Registry",
   "main": "main.js",
