@@ -11,6 +11,7 @@ const {
 } = require('electron');
 const path = require('path');
 const http = require('http');
+const { pathToFileURL } = require('url');
 const httpProxy = require('http-proxy');
 const serve = require('electron-serve');
 const equal = require('deep-equal');
@@ -220,7 +221,7 @@ app.whenReady().then(async () => {
   try {
     const { getPins, addPin } = await import(
       // https://github.com/electron/electron/issues/6262#issuecomment-229043051
-      path.join(__dirname, 'src', 'ipfs.mjs'),
+      pathToFileURL(path.join(__dirname, 'src', 'ipfs.mjs')),
     );
     // TODO: Unpin any previous interface versions.
     const pins = await getPins();
