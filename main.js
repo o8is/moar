@@ -181,7 +181,7 @@ app.whenReady().then(async () => {
     dapps = await gitopiaResponse.json();
     store.set('dapps', dapps);
   } catch (e) {
-    daps = store.get('dapps');
+    dapps = store.get('dapps');
   }
 
   // TODO: Pinning every version of the UI forever is probably not the best idea.
