@@ -138,6 +138,10 @@ async function createWindow() {
     mainWindow.setSize(width - 100, height - 100);
     // mainWindow.maximize();
     showWindow(mainWindow);
+    if (isDev) {
+      mainWindow.webContents.openDevTools();
+    }
+    
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
