@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.1](https://gitopia.com/moar/moar-desktop/compare/v0.6.0...v0.6.1) (2023-06-25)
+
+
+### Features
+
+* Add the ability to search for a dapp, then open it by hitting enter. ([9b49fce](https://gitopia.com/moar/moar-desktop/commit/9b49fcefa2b2a5f83dabe9d7fd203d3a26b27cfa))
+* Open devtools when running a local build. ([e83cb91](https://gitopia.com/moar/moar-desktop/commit/e83cb912741cee230e5979f2c007cba175edad12))
+* reset the state of the Moar Window after opening a dapp. ([7a00838](https://gitopia.com/moar/moar-desktop/commit/7a008388862dd1a6591158853ee5c0ab83d5a43d))
+* Use the "/" key to start a new search. ([562d751](https://gitopia.com/moar/moar-desktop/commit/562d751c9fab15fdaf7c84c00f774f0dc12dd41c))
+
 ## [0.6.0](https://gitopia.com/moar/moar-desktop/compare/v0.5.1...v0.6.0) (2023-06-24)
 
 
