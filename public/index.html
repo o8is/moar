@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
-    <script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
 	<title>Moar</title>
 
 	<link rel='icon' type='image/png' href='/favicon.png'>
@@ -15,5 +16,41 @@
 
 <body>
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.6/flowbite.min.js"></script> -->
+	<script type="text/javascript">
+		function freshDot(box) {
+			this.obj = document.createElement("div");
+			this.obj.classList.add(`box${box}`);
+			this.obj.style['animation-delay'] = `-${Math.floor(Math.random() * (2 - 0 + 1))}s`
+			this.obj.style.top = (document.body.scrollHeight * Math.random()) + 'px';
+			this.obj.style.left = (document.body.offsetWidth * Math.random()) - 10 + 'px';
+			this.size = Math.floor(4 * Math.random()) + 4;
+			this.obj.style.height = this.size + 'px';
+			this.obj.style.width = this.size + 'px';
+			document.getElementsByTagName('main')[0].appendChild(this.obj);
+		}
+
+		let dot = [];
+		document.addEventListener('DOMContentLoaded', function () {
+
+			for (let i = 0; i < 200; i++) {
+				const box = i % 3;
+				dot.push(new freshDot(box));
+			}
+		}, false);
+
+		function reportWindowSize() {
+			for (i = 0; i < 200; i++) {
+				document.getElementsByTagName('main')[0].removeChild(dot[i].obj);
+			}
+			dot = [];
+			for (let i = 0; i < 200; i++) {
+				const box = i % 3;
+				dot.push(new freshDot(box));
+			}
+		}
+
+		window.onresize = reportWindowSize;
+	</script>
 </body>
+
 </html>
