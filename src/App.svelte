@@ -69,7 +69,7 @@
         />
       </div>
       <div class="container mx-auto px-4 pb-8" on:keydown={onKeyDown}>
-        <div class="relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
+        <div id="search" class="mb-2 relative shadow-md bg-gray-800 rounded-lg">
           <div
             class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4"
           >
