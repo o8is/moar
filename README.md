@@ -1,6 +1,6 @@
 # MOAR: Multi-platform Open-source Application Registry
 
-![Moar Screenshot](https://jax.mypinata.cloud/ipfs/QmW9qBw5L9ZQawkSkeDE55c1qqsSemoMhSvUeVxfu3w3Dg)
+![Moar Screenshot](https://jax.mypinata.cloud/ipfs/QmR26mHPn89GfJypntFx7kLHPofyu7PPTBvCa4JxF5njmS)
 
 ## Overview
 
