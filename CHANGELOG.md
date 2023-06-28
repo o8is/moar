@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://gitopia.com/moar/moar-desktop/compare/v0.6.1...v0.7.0) (2023-06-28)
+
+
+### Features
+
+* Add an animated background to the main window. ([4b66e35](https://gitopia.com/moar/moar-desktop/commit/4b66e353c33ca76cf678561332e5fe9ea7f7129f))
+
+
+### Bug Fixes
+
+* Remove white as a background option for search. ([4a5afc9](https://gitopia.com/moar/moar-desktop/commit/4a5afc9c1ead7c3db914abc5411f21446166ba97)), closes [#20](https://gitopia.com/moar/moar-desktop/issues/20)
+
 ### [0.6.1](https://gitopia.com/moar/moar-desktop/compare/v0.6.0...v0.6.1) (2023-06-25)
 
 
