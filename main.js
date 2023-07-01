@@ -2,7 +2,6 @@ const {
   app,
   BrowserWindow,
   shell,
-  Notification,
   ipcMain,
   Menu,
   dialog,
@@ -23,18 +22,32 @@ const { hasUpdate } = require('./src/updates');
 
 const gotTheLock = app.requestSingleInstanceLock();
 
-let updateNotifictaion;
+const checkForUpdate = (noUpdateAction) => {
+  hasUpdate(package.version)
+    .then((newVersion) => {
+      dialog.showMessageBox(
+        mainWindow,
+        {
+          message: `New version of Moar (v${newVersion}) available!`,
+          buttons: ["Open Moar Download", "Ignore"],
+          defaultId: 0,
+          cancelId: 1,
+        })
+        .then(result => {
+          if (result.response === 0) {
+            shell.openExternal('https://gitopia.com/Moar/moar-desktop/releases');
+          }
+        });
+    })
+    .catch(() => {
+      if (noUpdateAction) {
+        noUpdateAction();
+      }
+    });
+};
 
 // Check for update on startup.
-hasUpdate(package.version)
-  .then(newVersion => {
-    updateNotifictaion = new Notification({ title: 'New Update', body: `Moar v${newVersion} is available` });
-    updateNotifictaion.on('click', () => {
-      shell.openExternal('https://gitopia.com/Moar/moar-desktop/releases');
-    });
-    updateNotifictaion.show();
-  })
-  .catch(() => null);
+checkForUpdate();
 
 const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({});
@@ -65,7 +78,7 @@ function isDev() {
 }
 
 // Turn off file menu.
-Menu.setApplicationMenu(null)
+Menu.setApplicationMenu(null);
 
 let httpPort = 80;
 
@@ -138,9 +151,6 @@ async function createWindow() {
     mainWindow.setSize(width - 100, height - 100);
     // mainWindow.maximize();
     showWindow(mainWindow);
-    if (isDev) {
-      mainWindow.webContents.openDevTools();
-    }
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
@@ -206,7 +216,19 @@ app.whenReady().then(async () => {
   });
 
   createWindow();
-  makeTray(() => toggleWindow(mainWindow));
+  makeTray(() => {
+    toggleWindow(mainWindow);
+  }, () => {
+    checkForUpdate(() => {
+      dialog.showMessageBox(
+        mainWindow,
+        {
+          message: "You are running the latest version of Moar!",
+          buttons: ["OK"],
+          defaultId: 0,
+        })
+    })
+  });
 
   try {
     const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json')

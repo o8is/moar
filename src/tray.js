@@ -3,7 +3,7 @@ const path = require("path");
 
 let { openAtLogin } = app.getLoginItemSettings();
 
-const makeTray = (toggleWindow) => {
+const makeTray = (toggleWindow, checkForUpdate) => {
   const trayMenuTemplate = [
     {
       label: "Toggle Window",
@@ -36,11 +36,15 @@ const makeTray = (toggleWindow) => {
 
   trayMenuTemplate.push(
     {
-      label: "Update Dapps",
+      label: "Refresh Dapps",
       click: () => {
         app.relaunch();
         app.exit();
       },
+    },
+    {
+      label: "Check For Update",
+      click: checkForUpdate,
     },
     {
       type: "separator",
