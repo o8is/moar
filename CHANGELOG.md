@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://gitopia.com/moar/moar-desktop/compare/v0.7.0...v0.7.1) (2023-07-01)
+
+
+### Features
+
+* Add tray menu option to check for new release. ([02a730e](https://gitopia.com/moar/moar-desktop/commit/02a730e3c101b6a9a6cabd188e2a9b25a39d633f)), closes [#21](https://gitopia.com/moar/moar-desktop/issues/21)
+
 ## [0.7.0](https://gitopia.com/moar/moar-desktop/compare/v0.6.1...v0.7.0) (2023-06-28)
 
 
