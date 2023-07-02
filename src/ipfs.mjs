@@ -27,4 +27,17 @@ const addPin = async (cid) => {
     return client.pin.add(cid);
 };
 
-export { getPins, addPin };
+const connectPeer = async (peer) => {
+    try {
+        const client = await getClient();
+        await client.swarm.connect(peer);
+    } catch (e) {
+        console.log(`error connecting to ${peer}`)
+    }
+};
+
+export {
+    getPins,
+    addPin,
+    connectPeer,
+};

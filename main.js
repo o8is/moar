@@ -16,38 +16,13 @@ const serve = require('electron-serve');
 const equal = require('deep-equal');
 const { removeHostsEntries, addHostsEntries, getEntries } = require('electron-hostile');
 const Store = require('electron-store');
-const { makeTray } = require('./src/tray');
 const package = require('./package.json');
-const { hasUpdate } = require('./src/updates');
+const { makeTray } = require('./src/tray');
+const { checkForUpdate } = require('./src/updates');
+const { getDapp, getCID, getCIDs } = require('./src/utils');
+const trustedPeers = require('./src/peers.json');
 
 const gotTheLock = app.requestSingleInstanceLock();
-
-const checkForUpdate = (noUpdateAction) => {
-  hasUpdate(package.version)
-    .then((newVersion) => {
-      dialog.showMessageBox(
-        mainWindow,
-        {
-          message: `New version of Moar (v${newVersion}) available!`,
-          buttons: ["Open Moar Download", "Ignore"],
-          defaultId: 0,
-          cancelId: 1,
-        })
-        .then(result => {
-          if (result.response === 0) {
-            shell.openExternal('https://gitopia.com/Moar/moar-desktop/releases');
-          }
-        });
-    })
-    .catch(() => {
-      if (noUpdateAction) {
-        noUpdateAction();
-      }
-    });
-};
-
-// Check for update on startup.
-checkForUpdate();
 
 const loadURL = serve({ directory: 'public' });
 const proxy = httpProxy.createProxyServer({});
@@ -167,33 +142,6 @@ async function createWindow() {
   });
 }
 
-const getDapp = (hostname, dapps) => {
-  const dapp = dapps.find(d => d.domain === hostname);
-
-  if (dapp) {
-    return dapp;
-  }
-
-  throw new Error('subdomain not found');
-};
-
-const getCIDs = (dapp) => Object.keys(dapp.versions).map(d => dapp.versions[d].cid);
-
-const getCID = (dapp, version) => {
-  let versionToLookup = version;
-  if (typeof versionToLookup === 'undefined') {
-    const versions = Object.keys(dapp.versions);
-    const latestRelease = Math.max(...versions);
-    versionToLookup = latestRelease;
-  }
-
-  if (typeof dapp.versions[versionToLookup] === 'undefined') {
-    throw new Error('version of interface not found.');
-  }
-
-  return dapp.versions[versionToLookup].cid;
-};
-
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   if (!gotTheLock) {
@@ -215,11 +163,15 @@ app.whenReady().then(async () => {
     showWindow(mainWindow);
   });
 
+
+  // Check for update on startup.
+  checkForUpdate(mainWindow, package.version);
+
   createWindow();
   makeTray(() => {
     toggleWindow(mainWindow);
   }, () => {
-    checkForUpdate(() => {
+    checkForUpdate(mainWindow, package.version, () => {
       dialog.showMessageBox(
         mainWindow,
         {
@@ -246,10 +198,17 @@ app.whenReady().then(async () => {
     cids.push(d.preview);
   });
   try {
-    const { getPins, addPin } = await import(
+    const { getPins, addPin, connectPeer } = await import(
       // https://github.com/electron/electron/issues/6262#issuecomment-229043051
       pathToFileURL(path.join(__dirname, 'src', 'ipfs.mjs')),
     );
+
+    // Add any known peers to speed up downloads.
+    trustedPeers.forEach(async (m) => {
+      console.log(`connecting to peer ${m}`);
+      await connectPeer(m);
+    });
+
     // TODO: Unpin any previous interface versions.
     const pins = await getPins();
     cids.forEach(async cid => {
