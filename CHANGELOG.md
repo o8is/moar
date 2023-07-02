@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.2](https://gitopia.com/moar/moar-desktop/compare/v0.7.1...v0.7.2) (2023-07-02)
+
+
+### Features
+
+* Connect to Akash IPFS node. ([40e4fd6](https://gitopia.com/moar/moar-desktop/commit/40e4fd6b7bda193644fb6f53dd73dcfb1dbeb723)), closes [#23](https://gitopia.com/moar/moar-desktop/issues/23)
+* Sort dapps by most recently opened. ([dbbb20b](https://gitopia.com/moar/moar-desktop/commit/dbbb20b2f38fa6e51b43266aa8d15d8831b0592b)), closes [#22](https://gitopia.com/moar/moar-desktop/issues/22)
+
 ### [0.7.1](https://gitopia.com/moar/moar-desktop/compare/v0.7.0...v0.7.1) (2023-07-01)
 
 
