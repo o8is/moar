@@ -21,6 +21,7 @@ const { makeTray } = require('./src/tray');
 const { checkForUpdate } = require('./src/updates');
 const { getDapp, sortDapps, getCID, getCIDs } = require('./src/utils');
 const trustedPeers = require('./src/peers.json');
+const { hideWindow, showWindow, toggleWindow } = require('./src/window');
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -57,33 +58,6 @@ function isDev() {
 Menu.setApplicationMenu(null);
 
 let httpPort = 80;
-
-const hideWindow = (win) => {
-  if (win) {
-    win.hide();
-    if (process.platform === 'darwin') {
-      app.dock.hide();
-    }
-  }
-}
-
-const showWindow = (win) => {
-  if (win) {
-    win.center();
-    win.show();
-    if (process.platform === 'darwin') {
-      app.dock.show();
-    }
-  }
-}
-
-const toggleWindow = (win) => {
-  if (win.isVisible()) {
-    hideWindow(win);
-  } else {
-    showWindow(win);
-  }
-}
 
 async function createWindow() {
   // Create the browser window.
