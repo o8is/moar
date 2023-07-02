@@ -19,7 +19,7 @@ const Store = require('electron-store');
 const package = require('./package.json');
 const { makeTray } = require('./src/tray');
 const { checkForUpdate } = require('./src/updates');
-const { getDapp, getCID, getCIDs } = require('./src/utils');
+const { getDapp, sortDapps, getCID, getCIDs } = require('./src/utils');
 const trustedPeers = require('./src/peers.json');
 
 const gotTheLock = app.requestSingleInstanceLock();
@@ -32,6 +32,7 @@ let dapps = [];
 // Setup default store values.
 const store = new Store({
   installed: {},
+  recent: {},
   dapps: [],
 });
 
@@ -129,6 +130,13 @@ async function createWindow() {
   });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    const recent = store.get('recent', {});
+    // Keep track of the current timestamp for sorting dapps.
+    recent[url] = Date.now();
+    store.set('recent', recent);
+    dapps = sortDapps(dapps, recent);
+    store.set('dapps', dapps);
+
     // Reset state and remount our components.
     mainWindow.reload();
     hideWindow(mainWindow);
@@ -185,6 +193,53 @@ app.whenReady().then(async () => {
   try {
     const gitopiaResponse = await fetch('https://server.gitopia.com/raw/Moar/dapp-registry/main/dapps2.json')
     dapps = await gitopiaResponse.json();
+    // Check host file **before** we sort, otherwise it causes false positives.
+    const domains = dapps.map(d => d.domain);
+    const hostEnteries = dapps.map((d) => ({ ip: '127.0.0.1', host: d.domain }));
+    const enteries = await getEntries();
+    // Make sure we remove any domains that don't exist in the registry anymore.
+    const hostEnteriesToRemove = enteries.map(e => {
+      if (e[1].includes('moar.local')) {
+        return { ip: '127.0.0.1', host: e[1] }
+      }
+    }).filter(i => i);
+  
+    let needsUpdate = false;
+    for (domain of domains) {
+      let found = false;
+      for (entry of enteries) {
+        if (entry[1] === domain) {
+          found = true;
+        }
+      }
+  
+      if (!found) {
+        needsUpdate = true;
+      }
+    }
+  
+    if (!equal(hostEnteriesToRemove, hostEnteries)) {
+      needsUpdate = true;
+    }
+  
+    if (needsUpdate) {
+      /**
+       * TODO: This should be smarter, diff current list and
+       * only make deletions or additions as needed.
+       */
+      await removeHostsEntries(hostEnteriesToRemove, {
+        name: 'Moar',
+        icon: path.join(__dirname, 'logo.icns'),
+      });
+  
+      await addHostsEntries(hostEnteries, {
+        name: 'Moar',
+        icon: path.join(__dirname, 'logo.icns'),
+      });
+    }
+
+    // Sort before saving, this way the frontend updates.
+    dapps = sortDapps(dapps, store.get('recent', {}));
     store.set('dapps', dapps);
   } catch (e) {
     dapps = store.get('dapps');
@@ -239,52 +294,6 @@ app.whenReady().then(async () => {
           app.exit();
         });
     }
-  }
-
-  const domains = dapps.map(d => d.domain);
-  const hostEnteries = dapps.map((d) => ({ ip: '127.0.0.1', host: d.domain }));
-
-  const enteries = await getEntries();
-
-  // Make sure we remove any domains that don't exist in the registry anymore.
-  const hostEnteriesToRemove = enteries.map(e => {
-    if (e[1].includes('moar.local')) {
-      return { ip: '127.0.0.1', host: e[1] }
-    }
-  }).filter(i => i);
-
-  let needsUpdate = false;
-  for (domain of domains) {
-    let found = false;
-    for (entry of enteries) {
-      if (entry[1] === domain) {
-        found = true;
-      }
-    }
-
-    if (!found) {
-      needsUpdate = true;
-    }
-  }
-
-  if (!equal(hostEnteriesToRemove, hostEnteries)) {
-    needsUpdate = true;
-  }
-
-  if (needsUpdate) {
-    /**
-     * TODO: This should be smarter, diff current list and
-     * only make deletions or additions as needed.
-     */
-    await removeHostsEntries(hostEnteriesToRemove, {
-      name: 'Moar',
-      icon: path.join(__dirname, 'logo.icns'),
-    });
-
-    await addHostsEntries(hostEnteries, {
-      name: 'Moar',
-      icon: path.join(__dirname, 'logo.icns'),
-    });
   }
 
   try {
