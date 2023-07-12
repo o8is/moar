@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.3](https://gitopia.com/moar/moar-desktop/compare/v0.7.2...v0.7.3) (2023-07-12)
+
+
+### Bug Fixes
+
+* Catch and log any unhandled exceptions. ([9c064e1](https://gitopia.com/moar/moar-desktop/commit/9c064e1ca7b9749886c15b3de4121ce8e0d8e6c0)), closes [#25](https://gitopia.com/moar/moar-desktop/issues/25)
+
 ### [0.7.2](https://gitopia.com/moar/moar-desktop/compare/v0.7.1...v0.7.2) (2023-07-02)
 
 
