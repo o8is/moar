@@ -23,6 +23,11 @@ const { getDapp, sortDapps, getCID, getCIDs } = require('./src/utils');
 const trustedPeers = require('./src/peers.json');
 const { hideWindow, showWindow, toggleWindow } = require('./src/window');
 
+// Catch and log any unhandled exceptions to prevent interruptions to the user. 
+process.on('uncaughtException', function (e) {
+  console.error(e);
+});
+
 const gotTheLock = app.requestSingleInstanceLock();
 
 const loadURL = serve({ directory: 'public' });
