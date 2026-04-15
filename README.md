@@ -25,9 +25,7 @@ Moar implements a custom DNS resolver specifically designed to handle Moar domai
 
 ### InterPlanetary File System (IPFS)
 
-IPFS is used for serving the assets of dapps, ensuring data remains distributed and easily accessible. Dapp updates are included in a governance proposal to the DAO with the CID of the new dapp interface. 
-
-Dapp submissions and updates are charged a fee that is distributed to DAO participants (stakers). This fee helps reduce spam, and generates revenue for maintaining the store.
+IPFS is used for serving the assets of dapps, ensuring data remains distributed and easily accessible. Dapp updates are included in a governance proposal to the DAO with the CID of the new dapp interface.
 
 When a dapp is installed it will be pinned to the users local IPFS node, ensuring it’s always online and can be installed by other users. 
 
